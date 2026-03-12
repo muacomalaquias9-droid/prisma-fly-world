@@ -1,9 +1,10 @@
-import { Home, Globe, Link, Settings } from "lucide-react";
+import { Home, Globe, Link, Settings, Tv } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const tabs = [
   { path: "/", label: "Início", icon: Home },
+  { path: "/guide", label: "Guia", icon: Tv },
   { path: "/regions", label: "Regiões", icon: Globe },
   { path: "/servers", label: "Servidores", icon: Link },
   { path: "/settings", label: "Ajustes", icon: Settings },
@@ -13,7 +14,6 @@ const BottomNav = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Hide nav when playing
   if (location.pathname.startsWith("/player")) return null;
 
   return (
@@ -25,7 +25,7 @@ const BottomNav = () => {
             <button
               key={tab.path}
               onClick={() => navigate(tab.path)}
-              className="relative flex flex-col items-center gap-0.5 px-4 py-2"
+              className="relative flex flex-col items-center gap-0.5 px-3 py-2"
             >
               {active && (
                 <motion.div
@@ -35,11 +35,11 @@ const BottomNav = () => {
                 />
               )}
               <tab.icon
-                size={22}
+                size={20}
                 className={active ? "text-primary" : "text-muted-foreground"}
               />
               <span
-                className={`text-[10px] font-medium ${
+                className={`text-[9px] font-medium ${
                   active ? "text-primary" : "text-muted-foreground"
                 }`}
               >

@@ -22,6 +22,7 @@ const App = () => (
           <div className="flex-1 overflow-hidden">
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/guide" element={<GuidePage />} />
               <Route path="/regions" element={<Regions />} />
               <Route path="/servers" element={<Servers />} />
               <Route path="/settings" element={<SettingsPage />} />

@@ -16,7 +16,11 @@ const ChannelRow = ({ group }: ChannelRowProps) => {
         onClick={() => navigate(`/regions?country=${group.country}`)}
         className="flex items-center gap-2 px-4 mb-3 group"
       >
-        <span className="text-xl">{group.flag}</span>
+        <img
+          src={group.flag}
+          alt={group.country}
+          className="w-6 h-4 object-cover rounded-sm shadow-sm"
+        />
         <h2 className="font-display font-semibold text-base text-foreground">
           {group.country}
         </h2>
