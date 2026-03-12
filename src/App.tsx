@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import BottomNav from "./components/BottomNav";
 import Index from "./pages/Index";
 import Regions from "./pages/Regions";
+import GuidePage from "./pages/GuidePage";
 import Servers from "./pages/Servers";
 import SettingsPage from "./pages/SettingsPage";
 import PlayerPage from "./pages/PlayerPage";
