@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import BottomNav from "./components/BottomNav";
 import Index from "./pages/Index";
 import Regions from "./pages/Regions";
+import GuidePage from "./pages/GuidePage";
 import Servers from "./pages/Servers";
 import SettingsPage from "./pages/SettingsPage";
 import PlayerPage from "./pages/PlayerPage";
@@ -21,6 +22,7 @@ const App = () => (
           <div className="flex-1 overflow-hidden">
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/guide" element={<GuidePage />} />
               <Route path="/regions" element={<Regions />} />
               <Route path="/servers" element={<Servers />} />
               <Route path="/settings" element={<SettingsPage />} />

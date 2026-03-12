@@ -30,7 +30,11 @@ const Regions = () => {
                 : "bg-card text-foreground border border-border"
             }`}
           >
-            <span>{g.flag}</span>
+            <img
+              src={g.flag}
+              alt={g.country}
+              className="w-5 h-3.5 object-cover rounded-sm"
+            />
             {g.country}
           </button>
         ))}
