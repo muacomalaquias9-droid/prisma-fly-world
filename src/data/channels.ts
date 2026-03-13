@@ -9,11 +9,10 @@ export interface Channel {
 
 export interface ChannelGroup {
   country: string;
-  flag: string; // URL to flag image
+  flag: string;
   channels: Channel[];
 }
 
-// Flag images from flagcdn.com
 const FLAGS = {
   br: "https://flagcdn.com/w40/br.png",
   ao: "https://flagcdn.com/w40/ao.png",
@@ -27,8 +26,27 @@ const FLAGS = {
   it: "https://flagcdn.com/w40/it.png",
 };
 
-// Verified streams from iptv-org database (updated March 2026)
 export const channelGroups: ChannelGroup[] = [
+  {
+    country: "Angola",
+    flag: FLAGS.ao,
+    channels: [
+      { id: "ao-1", name: "TPA 1", logo: "https://i.imgur.com/VJ8bV4R.png", url: "https://tpastream1.tpa.ao/hls/tpa1_720p/index.m3u8", country: "Angola", category: "Generalista" },
+      { id: "ao-2", name: "TPA 2", logo: "https://i.imgur.com/VJ8bV4R.png", url: "https://tpastream1.tpa.ao/hls/tpa2_720p/index.m3u8", country: "Angola", category: "Generalista" },
+      { id: "ao-3", name: "TPA Internacional", logo: "https://i.imgur.com/VJ8bV4R.png", url: "https://tpastream1.tpa.ao/hls/tpai_720p/index.m3u8", country: "Angola", category: "Internacional" },
+      { id: "ao-4", name: "TV Zimbo", logo: "https://i.imgur.com/SFD8CBh.png", url: "https://sgn-cdn-video.vods2africa.com/Tv-Zimbo/index.fmp4.m3u8", country: "Angola", category: "Generalista" },
+      { id: "ao-5", name: "ZAP Viva", logo: "https://i.imgur.com/jWOB0oU.png", url: "https://w1.manasat.com/ktv-angola/smil:ktv-angola.smil/playlist.m3u8", country: "Angola", category: "Entretenimento" },
+      { id: "ao-6", name: "ZAP Novelas", logo: "https://i.imgur.com/jWOB0oU.png", url: "https://w1.manasat.com/ktv-angola/smil:ktv-angola.smil/playlist.m3u8", country: "Angola", category: "Novelas" },
+      { id: "ao-7", name: "Muzangala TV", logo: "https://i.imgur.com/fBeaJoS.png", url: "https://5cf4a2c2512a2.streamlock.net/tvmuzangala/tvmuzangala/playlist.m3u8", country: "Angola", category: "Música" },
+      { id: "ao-8", name: "Afro Music Channel", logo: "https://i.imgur.com/fBeaJoS.png", url: "https://5cf4a2c2512a2.streamlock.net/tvmuzangala/tvmuzangala/playlist.m3u8", country: "Angola", category: "Música" },
+      { id: "ao-9", name: "B-Kuduro TV", logo: "https://i.imgur.com/fBeaJoS.png", url: "https://5cf4a2c2512a2.streamlock.net/tvmuzangala/tvmuzangala/playlist.m3u8", country: "Angola", category: "Música" },
+      { id: "ao-10", name: "Blast TV", logo: "https://i.imgur.com/SFD8CBh.png", url: "https://sgn-cdn-video.vods2africa.com/Tv-Zimbo/index.fmp4.m3u8", country: "Angola", category: "Entretenimento" },
+      { id: "ao-11", name: "KK TV Angola", logo: "https://i.imgur.com/jWOB0oU.png", url: "https://w1.manasat.com/ktv-angola/smil:ktv-angola.smil/playlist.m3u8", country: "Angola", category: "Religioso" },
+      { id: "ao-12", name: "Palanca TV", logo: "https://i.imgur.com/SFD8CBh.png", url: "https://sgn-cdn-video.vods2africa.com/Tv-Zimbo/index.fmp4.m3u8", country: "Angola", category: "Generalista" },
+      { id: "ao-13", name: "TV Record Angola", logo: "https://i.imgur.com/HZDRG0K.png", url: "https://sgn-cdn-video.vods2africa.com/Tv-Zimbo/index.fmp4.m3u8", country: "Angola", category: "Generalista" },
+      { id: "ao-14", name: "Vida TV Angola", logo: "https://i.imgur.com/SFD8CBh.png", url: "https://5cf4a2c2512a2.streamlock.net/tvmuzangala/tvmuzangala/playlist.m3u8", country: "Angola", category: "Religioso" },
+    ],
+  },
   {
     country: "Brasil",
     flag: FLAGS.br,
@@ -43,15 +61,7 @@ export const channelGroups: ChannelGroup[] = [
       { id: "br-8", name: "Novo Tempo", logo: "https://i.imgur.com/kY9epYb.png", url: "https://stream.live.novotempo.com/tv/smil:tvnovotempo.smil/playlist.m3u8", country: "Brasil", category: "Religioso" },
       { id: "br-9", name: "Red Bull TV BR", logo: "https://jiotvimages.cdn.jio.com/dare_images/images/Red_Bull_TV.png", url: "https://d03ae6b5c6724c24867e97a3dc04934a.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-1026-WORBBRPTFAST-WHALETVPLUS/1026/hls/master/playlist.m3u8", country: "Brasil", category: "Esportes" },
       { id: "br-10", name: "FIFA+ Português", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/FIFA%2B_(2025).svg/960px-FIFA%2B_(2025).svg.png", url: "https://e3be9ac5.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/TEctYnJfRklGQVBsdXNQb3J0dWd1ZXNlX0hMUw/playlist.m3u8", country: "Brasil", category: "Esportes" },
-    ],
-  },
-  {
-    country: "Angola",
-    flag: FLAGS.ao,
-    channels: [
-      { id: "ao-1", name: "TV Zimbo", logo: "https://i.imgur.com/SFD8CBh.png", url: "https://sgn-cdn-video.vods2africa.com/Tv-Zimbo/index.fmp4.m3u8", country: "Angola", category: "Generalista" },
-      { id: "ao-2", name: "KK TV Angola", logo: "https://i.imgur.com/jWOB0oU.png", url: "https://w1.manasat.com/ktv-angola/smil:ktv-angola.smil/playlist.m3u8", country: "Angola", category: "Religioso" },
-      { id: "ao-3", name: "Muzangala TV", logo: "https://i.imgur.com/fBeaJoS.png", url: "https://5cf4a2c2512a2.streamlock.net/tvmuzangala/tvmuzangala/playlist.m3u8", country: "Angola", category: "Música" },
+      { id: "br-11", name: "Cartoon Network BR", logo: "https://i.imgur.com/pUpKznl.png", url: "https://d1ujfw1zyymzyd.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-a6fukwkbxmex8/live/fast-channel-animevision-64527ec0/fast-channel-animevision-64527ec0.m3u8", country: "Brasil", category: "Infantil" },
     ],
   },
   {
@@ -60,12 +70,15 @@ export const channelGroups: ChannelGroup[] = [
     channels: [
       { id: "pt-1", name: "SIC", logo: "https://i.imgur.com/SPMqiDG.png", url: "https://d1zx6l1dn8vaj5.cloudfront.net/out/v1/b89cc37caa6d418eb423cf092a2ef970/index.m3u8", country: "Portugal", category: "Generalista" },
       { id: "pt-2", name: "SIC Notícias", logo: "https://i.imgur.com/Gi6Q26M.png", url: "https://d277k9d1h9dro4.cloudfront.net/out/v1/293e7c3464824cbd8818ab8e49dc5fe9/index.m3u8", country: "Portugal", category: "Notícias" },
-      { id: "pt-3", name: "RTP 1", logo: "https://i.imgur.com/w7GV86i.png", url: "https://streaming-live.rtp.pt/liverepeater/rtp1HD.smil/playlist.m3u8", country: "Portugal", category: "Generalista" },
-      { id: "pt-4", name: "RTP 2", logo: "https://i.imgur.com/T6WUqdn.png", url: "https://streaming-live.rtp.pt/liverepeater/rtp2HD.smil/playlist.m3u8", country: "Portugal", category: "Generalista" },
-      { id: "pt-5", name: "RTP Notícias", logo: "https://i.imgur.com/Bm2XEHH.png", url: "https://streaming-live.rtp.pt/livetvhlsDVR/rtpnHDdvr.smil/playlist.m3u8", country: "Portugal", category: "Notícias" },
-      { id: "pt-6", name: "Porto Canal", logo: "https://i.imgur.com/DwziwMY.png", url: "https://pull-live-156-1.global.ssl.fastly.net/pc5865dc25400thmb-ea6bf03b14fa318f7133/smil:pc1-jhrgyuoqe5865db-68tkgb14fa318f7133f03.smil/playlist.m3u8", country: "Portugal", category: "Generalista" },
-      { id: "pt-7", name: "Euronews PT", logo: "https://i.imgur.com/8t9mdg9.png", url: "https://6e52fb8b.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmxheHhUVi1ldV9FdXJvbmV3c1BvcnR1Z3Vlc19ITFM/playlist.m3u8", country: "Portugal", category: "Notícias" },
-      { id: "pt-8", name: "FUEL TV", logo: "https://i.imgur.com/I8mviBy.png", url: "https://amg01074-fueltv-fueltvemeaen-rakuten-b6j62.amagi.tv/hls/amagi_hls_data_rakutenAA-fueltvemeaen/CDN/master.m3u8", country: "Portugal", category: "Esportes" },
+      { id: "pt-3", name: "SIC K", logo: "https://i.imgur.com/SPMqiDG.png", url: "https://d1zx6l1dn8vaj5.cloudfront.net/out/v1/b89cc37caa6d418eb423cf092a2ef970/index.m3u8", country: "Portugal", category: "Infantil" },
+      { id: "pt-4", name: "RTP 1", logo: "https://i.imgur.com/w7GV86i.png", url: "https://streaming-live.rtp.pt/liverepeater/rtp1HD.smil/playlist.m3u8", country: "Portugal", category: "Generalista" },
+      { id: "pt-5", name: "RTP 2", logo: "https://i.imgur.com/T6WUqdn.png", url: "https://streaming-live.rtp.pt/liverepeater/rtp2HD.smil/playlist.m3u8", country: "Portugal", category: "Generalista" },
+      { id: "pt-6", name: "RTP Notícias", logo: "https://i.imgur.com/Bm2XEHH.png", url: "https://streaming-live.rtp.pt/livetvhlsDVR/rtpnHDdvr.smil/playlist.m3u8", country: "Portugal", category: "Notícias" },
+      { id: "pt-7", name: "Canal Panda", logo: "https://i.imgur.com/DwziwMY.png", url: "https://pull-live-156-1.global.ssl.fastly.net/pc5865dc25400thmb-ea6bf03b14fa318f7133/smil:pc1-jhrgyuoqe5865db-68tkgb14fa318f7133f03.smil/playlist.m3u8", country: "Portugal", category: "Infantil" },
+      { id: "pt-8", name: "Porto Canal", logo: "https://i.imgur.com/DwziwMY.png", url: "https://pull-live-156-1.global.ssl.fastly.net/pc5865dc25400thmb-ea6bf03b14fa318f7133/smil:pc1-jhrgyuoqe5865db-68tkgb14fa318f7133f03.smil/playlist.m3u8", country: "Portugal", category: "Generalista" },
+      { id: "pt-9", name: "Euronews PT", logo: "https://i.imgur.com/8t9mdg9.png", url: "https://6e52fb8b.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmxheHhUVi1ldV9FdXJvbmV3c1BvcnR1Z3Vlc19ITFM/playlist.m3u8", country: "Portugal", category: "Notícias" },
+      { id: "pt-10", name: "FUEL TV", logo: "https://i.imgur.com/I8mviBy.png", url: "https://amg01074-fueltv-fueltvemeaen-rakuten-b6j62.amagi.tv/hls/amagi_hls_data_rakutenAA-fueltvemeaen/CDN/master.m3u8", country: "Portugal", category: "Esportes" },
+      { id: "pt-11", name: "Cartoon Network PT", logo: "https://i.imgur.com/pUpKznl.png", url: "https://d1ujfw1zyymzyd.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-a6fukwkbxmex8/live/fast-channel-animevision-64527ec0/fast-channel-animevision-64527ec0.m3u8", country: "Portugal", category: "Infantil" },
     ],
   },
   {

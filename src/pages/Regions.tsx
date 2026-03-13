@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { motion } from "framer-motion";
 import { channelGroups } from "@/data/channels";
 import ChannelCard from "@/components/ChannelCard";
 
@@ -18,8 +17,7 @@ const Regions = () => {
         <p className="text-xs text-muted-foreground">Escolha um país</p>
       </header>
 
-      {/* Country pills */}
-      <div className="flex-shrink-0 flex gap-2 overflow-x-auto scrollbar-hide px-4 py-3">
+      <div className="flex-shrink-0 flex gap-2 overflow-x-auto overscroll-x-contain scrollbar-hide px-4 py-3">
         {channelGroups.map((g) => (
           <button
             key={g.country}
@@ -40,20 +38,13 @@ const Regions = () => {
         ))}
       </div>
 
-      {/* Channels grid */}
-      <main className="flex-1 overflow-y-auto scrollbar-hide px-4 pb-20">
+      <main className="flex-1 overflow-y-auto overscroll-contain scrollbar-hide px-4 pb-20">
         {activeGroup && (
-          <motion.div
-            key={activeGroup.country}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.2 }}
-            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 pt-2"
-          >
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 pt-2">
             {activeGroup.channels.map((ch, i) => (
               <ChannelCard key={ch.id} channel={ch} index={i} />
             ))}
-          </motion.div>
+          </div>
         )}
       </main>
     </div>
