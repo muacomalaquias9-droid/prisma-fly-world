@@ -57,10 +57,18 @@
     @apply bg-background text-foreground font-body antialiased;
     overflow: hidden;
     height: 100dvh;
+    -webkit-user-select: none;
+    user-select: none;
   }
   #root {
     height: 100dvh;
     overflow: hidden;
+  }
+  img {
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+    pointer-events: none;
+    user-select: none;
   }
 }
 

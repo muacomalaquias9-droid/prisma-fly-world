@@ -1,5 +1,4 @@
-import { useState, useMemo } from "react";
-import { motion } from "framer-motion";
+import { useState, useMemo, memo } from "react";
 import { Play, Clock, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { channelGroups, getAllChannels } from "@/data/channels";
@@ -13,9 +12,6 @@ const GuidePage = () => {
     ? channelGroups.find((g) => g.country === selectedCountry)?.channels ?? []
     : getAllChannels();
 
-  const formatTime = (date: Date) =>
-    date.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
-
   return (
     <div className="h-full flex flex-col">
       <header className="flex-shrink-0 px-4 pt-4 pb-2">
@@ -23,8 +19,7 @@ const GuidePage = () => {
         <p className="text-xs text-muted-foreground">Programação em tempo real</p>
       </header>
 
-      {/* Country filter pills */}
-      <div className="flex-shrink-0 flex gap-2 overflow-x-auto scrollbar-hide px-4 py-3">
+      <div className="flex-shrink-0 flex gap-2 overflow-x-auto overscroll-x-contain scrollbar-hide px-4 py-3">
         <button
           onClick={() => setSelectedCountry(null)}
           className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
@@ -51,11 +46,10 @@ const GuidePage = () => {
         ))}
       </div>
 
-      {/* EPG List */}
-      <main className="flex-1 overflow-y-auto scrollbar-hide px-4 pb-20">
-        <div className="space-y-3">
+      <main className="flex-1 overflow-y-auto overscroll-contain scrollbar-hide px-4 pb-20">
+        <div className="space-y-2.5">
           {channels.map((channel, i) => (
-            <EPGChannelCard key={channel.id} channel={channel} index={i} />
+            <EPGChannelCard key={channel.id} channel={channel} />
           ))}
         </div>
       </main>
@@ -63,7 +57,7 @@ const GuidePage = () => {
   );
 };
 
-const EPGChannelCard = ({ channel, index }: { channel: Channel; index: number }) => {
+const EPGChannelCard = memo(({ channel }: { channel: Channel }) => {
   const navigate = useNavigate();
   const programs = useMemo(() => generateEPG(channel.id, channel.category), [channel.id, channel.category]);
   const current = getCurrentProgram(programs);
@@ -72,23 +66,16 @@ const EPGChannelCard = ({ channel, index }: { channel: Channel; index: number })
   const formatTime = (date: Date) =>
     date.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
 
-  // Calculate progress percentage for current program
   const progress = useMemo(() => {
     if (!current) return 0;
-    const now = new Date().getTime();
+    const now = Date.now();
     const start = current.startTime.getTime();
     const end = current.endTime.getTime();
     return Math.min(100, Math.max(0, ((now - start) / (end - start)) * 100));
   }, [current]);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.03, duration: 0.25 }}
-      className="bg-card rounded-xl border border-border overflow-hidden"
-    >
-      {/* Channel header */}
+    <div className="bg-card rounded-xl border border-border overflow-hidden">
       <button
         onClick={() => navigate(`/player/${channel.id}`)}
         className="w-full flex items-center gap-3 p-3 hover:bg-accent/50 transition-colors"
@@ -99,16 +86,12 @@ const EPGChannelCard = ({ channel, index }: { channel: Channel; index: number })
             alt={channel.name}
             className="w-7 h-7 object-contain"
             loading="lazy"
-            onError={(e) => {
-              (e.target as HTMLImageElement).style.display = "none";
-            }}
+            onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
           />
         </div>
         <div className="flex-1 min-w-0 text-left">
-          <h3 className="font-display font-semibold text-sm text-foreground truncate">
-            {channel.name}
-          </h3>
-          <p className="text-[10px] text-muted-foreground">{channel.country} • {channel.category}</p>
+          <h3 className="font-display font-semibold text-sm text-foreground truncate">{channel.name}</h3>
+          <p className="text-[10px] text-muted-foreground">{channel.country} · {channel.category}</p>
         </div>
         <div className="flex items-center gap-1.5 flex-shrink-0">
           <span className="live-indicator w-2 h-2 rounded-full bg-red-500 inline-block" />
@@ -117,7 +100,6 @@ const EPGChannelCard = ({ channel, index }: { channel: Channel; index: number })
         <Play size={18} className="text-primary flex-shrink-0" fill="currentColor" />
       </button>
 
-      {/* Current & Next programs */}
       <div className="px-3 pb-3 space-y-2">
         {current && (
           <div className="space-y-1.5">
@@ -129,27 +111,23 @@ const EPGChannelCard = ({ channel, index }: { channel: Channel; index: number })
               </span>
             </div>
             <p className="text-xs font-medium text-foreground pl-5">{current.title}</p>
-            {/* Progress bar */}
             <div className="ml-5 h-1 bg-border rounded-full overflow-hidden">
-              <div
-                className="h-full bg-primary rounded-full transition-all"
-                style={{ width: `${progress}%` }}
-              />
+              <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${progress}%` }} />
             </div>
           </div>
         )}
         {next && (
           <div className="flex items-center gap-2 pl-5 opacity-60">
             <ChevronRight size={12} className="text-muted-foreground flex-shrink-0" />
-            <span className="text-[10px] text-muted-foreground">
-              {formatTime(next.startTime)}
-            </span>
+            <span className="text-[10px] text-muted-foreground">{formatTime(next.startTime)}</span>
             <span className="text-xs text-muted-foreground truncate">{next.title}</span>
           </div>
         )}
       </div>
-    </motion.div>
+    </div>
   );
-};
+});
+
+EPGChannelCard.displayName = "EPGChannelCard";
 
 export default GuidePage;
