@@ -1,7 +1,8 @@
 import { memo } from "react";
-import { Play } from "lucide-react";
+import { Play, Eye } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { Channel } from "@/data/channels";
+import { getViewerCount } from "@/data/channels";
 
 interface ChannelCardProps {
   channel: Channel;
@@ -10,6 +11,7 @@ interface ChannelCardProps {
 
 const ChannelCard = memo(({ channel, index }: ChannelCardProps) => {
   const navigate = useNavigate();
+  const viewers = getViewerCount(channel.id);
 
   return (
     <button
@@ -35,6 +37,13 @@ const ChannelCard = memo(({ channel, index }: ChannelCardProps) => {
         </div>
         <div className="absolute top-1.5 right-1.5">
           <span className="live-indicator inline-block w-1.5 h-1.5 rounded-full bg-red-500" />
+        </div>
+        {/* Viewer count */}
+        <div className="absolute bottom-1 right-1">
+          <div className="flex items-center gap-0.5 bg-foreground/50 px-1 py-0.5 rounded-full">
+            <Eye size={7} className="text-white" />
+            <span className="text-white text-[7px] font-bold">{viewers}</span>
+          </div>
         </div>
       </div>
       <p className="mt-1.5 text-[11px] font-medium text-foreground truncate text-left">
