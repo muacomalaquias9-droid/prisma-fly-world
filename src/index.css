@@ -59,6 +59,9 @@
     height: 100dvh;
     -webkit-user-select: none;
     user-select: none;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: pan-x pan-y;
   }
   #root {
     height: 100dvh;
@@ -85,6 +88,12 @@
   }
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 }
 
