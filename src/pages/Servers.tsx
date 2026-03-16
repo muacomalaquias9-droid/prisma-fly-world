@@ -1,51 +1,16 @@
-import { useState, useEffect } from "react";
-import { Plus, Link, Play, Loader2, Tv } from "lucide-react";
+import { useState } from "react";
+import { Plus, Link, Loader2, Tv } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-
-interface ServerEntry {
-  id: string;
-  name: string;
-  url: string;
-  created_at: string;
-}
+import { useM3UServers } from "@/hooks/useM3UParser";
 
 const Servers = () => {
-  const [servers, setServers] = useState<ServerEntry[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { servers, loading } = useM3UServers();
   const [showForm, setShowForm] = useState(false);
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
   const [submitting, setSubmitting] = useState(false);
-
-  // Load servers from database
-  useEffect(() => {
-    const fetchServers = async () => {
-      const { data, error } = await supabase
-        .from("shared_servers")
-        .select("*")
-        .order("created_at", { ascending: false });
-      if (data) setServers(data);
-      if (error) console.error(error);
-      setLoading(false);
-    };
-    fetchServers();
-
-    // Realtime subscription
-    const channel = supabase
-      .channel("shared_servers_realtime")
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "shared_servers" },
-        (payload) => {
-          setServers((prev) => [payload.new as ServerEntry, ...prev]);
-        }
-      )
-      .subscribe();
-
-    return () => { supabase.removeChannel(channel); };
-  }, []);
 
   const addServer = async () => {
     if (!url.trim()) {
