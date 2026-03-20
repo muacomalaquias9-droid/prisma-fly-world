@@ -1,16 +1,17 @@
 import { useState } from "react";
-import { Plus, Link, Loader2, Tv } from "lucide-react";
+import { Plus, Link, Loader2, Tv, Trash2, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useM3UServers } from "@/hooks/useM3UParser";
 
 const Servers = () => {
-  const { servers, loading } = useM3UServers();
+  const { servers, loading, deleteServer } = useM3UServers();
   const [showForm, setShowForm] = useState(false);
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [deleting, setDeleting] = useState<string | null>(null);
 
   const addServer = async () => {
     if (!url.trim()) {
@@ -24,9 +25,8 @@ const Servers = () => {
     });
     if (error) {
       toast.error("Erro ao adicionar servidor");
-      console.error(error);
     } else {
-      toast.success("Servidor adicionado para todos os usuários!");
+      toast.success("Servidor adicionado!");
       setName("");
       setUrl("");
       setShowForm(false);
@@ -34,18 +34,26 @@ const Servers = () => {
     setSubmitting(false);
   };
 
+  const handleDelete = async (id: string) => {
+    setDeleting(id);
+    const ok = await deleteServer(id);
+    if (ok) toast.success("Servidor removido");
+    else toast.error("Erro ao remover");
+    setDeleting(null);
+  };
+
   return (
     <div className="h-full flex flex-col bg-background">
       <header className="flex-shrink-0 px-4 pt-4 pb-2 flex items-center justify-between">
         <div>
           <h1 className="font-display font-bold text-xl text-foreground">Servidores</h1>
-          <p className="text-xs text-muted-foreground">URLs M3U compartilhadas em nuvem</p>
+          <p className="text-xs text-muted-foreground">URLs M3U compartilhadas na nuvem</p>
         </div>
         <button
           onClick={() => setShowForm(!showForm)}
           className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground shadow-lg active:scale-90 transition-transform"
         >
-          <Plus size={20} />
+          {showForm ? <X size={20} /> : <Plus size={20} />}
         </button>
       </header>
 
@@ -80,9 +88,6 @@ const Servers = () => {
                 {submitting ? <Loader2 size={16} className="animate-spin" /> : null}
                 Adicionar para Todos
               </button>
-              <p className="text-[10px] text-muted-foreground text-center">
-                ⚡ Servidores ficam salvos na nuvem e aparecem para todos os usuários
-              </p>
             </div>
           </motion.div>
         )}
@@ -99,9 +104,7 @@ const Servers = () => {
               <Link size={24} className="text-muted-foreground" />
             </div>
             <p className="text-sm text-muted-foreground">Nenhum servidor adicionado</p>
-            <p className="text-xs text-muted-foreground mt-1">
-              Toque no + para adicionar uma URL M3U
-            </p>
+            <p className="text-xs text-muted-foreground mt-1">Toque no + para adicionar uma URL M3U</p>
           </div>
         ) : (
           <div className="space-y-2">
@@ -111,7 +114,8 @@ const Servers = () => {
                 layout
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-card border border-border rounded-2xl p-3.5 flex items-center gap-3 active:scale-[0.98] transition-transform"
+                exit={{ opacity: 0, x: -100 }}
+                className="bg-card border border-border rounded-2xl p-3.5 flex items-center gap-3"
               >
                 <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
                   <Tv size={18} className="text-primary" />
@@ -120,10 +124,17 @@ const Servers = () => {
                   <p className="text-sm font-semibold text-foreground truncate">{server.name}</p>
                   <p className="text-[10px] text-muted-foreground truncate">{server.url}</p>
                 </div>
-                <div className="flex items-center gap-1 bg-green-500/10 px-2 py-1 rounded-full flex-shrink-0">
-                  <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                  <span className="text-green-600 text-[9px] font-semibold">Ativo</span>
-                </div>
+                <button
+                  onClick={() => handleDelete(server.id)}
+                  disabled={deleting === server.id}
+                  className="w-9 h-9 rounded-full bg-destructive/10 flex items-center justify-center flex-shrink-0 active:scale-90 transition-transform"
+                >
+                  {deleting === server.id ? (
+                    <Loader2 size={14} className="text-destructive animate-spin" />
+                  ) : (
+                    <Trash2 size={14} className="text-destructive" />
+                  )}
+                </button>
               </motion.div>
             ))}
           </div>

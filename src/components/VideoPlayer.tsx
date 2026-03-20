@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import Hls from "hls.js";
 import {
   ArrowLeft, Volume2, VolumeX, Maximize, Minimize, Loader2,
-  RotateCw, Wifi, Eye, Settings
+  Wifi, Eye, Settings, RotateCw, Subtitles, Languages
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { Channel } from "@/data/channels";
@@ -14,10 +14,23 @@ interface VideoPlayerProps {
 
 const QUALITY_OPTIONS = [
   { label: "Auto", level: -1 },
-  { label: "1080p", level: 0 },
-  { label: "720p", level: 1 },
-  { label: "480p", level: 2 },
-  { label: "360p", level: 3 },
+  { label: "8K", level: 0 },
+  { label: "4K", level: 1 },
+  { label: "1080p", level: 2 },
+  { label: "720p", level: 3 },
+  { label: "480p", level: 4 },
+  { label: "360p", level: 5 },
+];
+
+const LANGUAGES = [
+  { code: "pt", label: "Português", flag: "https://flagcdn.com/w20/br.png" },
+  { code: "en", label: "English", flag: "https://flagcdn.com/w20/us.png" },
+  { code: "fr", label: "Français", flag: "https://flagcdn.com/w20/fr.png" },
+  { code: "es", label: "Español", flag: "https://flagcdn.com/w20/es.png" },
+  { code: "ar", label: "العربية", flag: "https://flagcdn.com/w20/sa.png" },
+  { code: "zh", label: "中文", flag: "https://flagcdn.com/w20/cn.png" },
+  { code: "de", label: "Deutsch", flag: "https://flagcdn.com/w20/de.png" },
+  { code: "sw", label: "Kiswahili", flag: "https://flagcdn.com/w20/ke.png" },
 ];
 
 const VideoPlayer = ({ channel }: VideoPlayerProps) => {
@@ -32,8 +45,9 @@ const VideoPlayer = ({ channel }: VideoPlayerProps) => {
   const [showControls, setShowControls] = useState(true);
   const [ping, setPing] = useState(0);
   const [viewers, setViewers] = useState(0);
-  const [showSubMenu, setShowSubMenu] = useState<"quality" | null>(null);
+  const [showSubMenu, setShowSubMenu] = useState<"quality" | "language" | null>(null);
   const [selectedQuality, setSelectedQuality] = useState(-1);
+  const [selectedLang, setSelectedLang] = useState("pt");
   const [availableLevels, setAvailableLevels] = useState<{ label: string; level: number }[]>([]);
   const hideTimeout = useRef<ReturnType<typeof setTimeout>>();
 
@@ -48,7 +62,6 @@ const VideoPlayer = ({ channel }: VideoPlayerProps) => {
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-
     setLoading(true);
     setError(false);
 
@@ -81,7 +94,7 @@ const VideoPlayer = ({ channel }: VideoPlayerProps) => {
         video.play().catch(() => {});
         setLoading(false);
         const levels = data.levels.map((l, i) => ({
-          label: `${l.height}p`,
+          label: l.height >= 4320 ? "8K" : l.height >= 2160 ? "4K" : `${l.height}p`,
           level: i,
         }));
         setAvailableLevels([{ label: "Auto", level: -1 }, ...levels]);
@@ -130,17 +143,25 @@ const VideoPlayer = ({ channel }: VideoPlayerProps) => {
       if (!document.fullscreenElement) {
         await containerRef.current.requestFullscreen();
         setIsFullscreen(true);
-        if (screen.orientation && 'lock' in screen.orientation) {
+        if (screen.orientation && "lock" in screen.orientation) {
           try { await (screen.orientation as any).lock("landscape"); } catch {}
         }
       } else {
         await document.exitFullscreen();
         setIsFullscreen(false);
-        if (screen.orientation && 'unlock' in screen.orientation) {
+        if (screen.orientation && "unlock" in screen.orientation) {
           try { (screen.orientation as any).unlock(); } catch {}
         }
       }
     } catch {}
+  };
+
+  const rotateScreen = async () => {
+    if (screen.orientation && "lock" in screen.orientation) {
+      const current = screen.orientation.type;
+      const next = current.includes("landscape") ? "portrait" : "landscape";
+      try { await (screen.orientation as any).lock(next); } catch {}
+    }
   };
 
   const handleQualityChange = (level: number) => {
@@ -211,7 +232,7 @@ const VideoPlayer = ({ channel }: VideoPlayerProps) => {
             <p className="text-white/50 text-xs">O canal {channel.name} está temporariamente fora do ar</p>
             <button
               onClick={() => navigate(-1)}
-              className="mt-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-lg text-sm font-medium"
+              className="mt-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-lg text-sm font-medium active:scale-95 transition-transform"
             >
               Voltar
             </button>
@@ -229,7 +250,7 @@ const VideoPlayer = ({ channel }: VideoPlayerProps) => {
         <div className="absolute top-0 left-0 right-0 bg-gradient-to-b from-black/80 to-transparent p-3 flex items-center gap-3">
           <button
             onClick={(e) => { e.stopPropagation(); navigate(-1); }}
-            className="text-white w-9 h-9 flex items-center justify-center rounded-full bg-white/10"
+            className="text-white w-9 h-9 flex items-center justify-center rounded-full bg-white/10 active:scale-90 transition-transform"
           >
             <ArrowLeft size={20} />
           </button>
@@ -246,15 +267,15 @@ const VideoPlayer = ({ channel }: VideoPlayerProps) => {
               <span className="text-green-400 text-[9px] font-mono bg-black/40 px-1.5 py-0.5 rounded-full">{ping}ms</span>
             )}
             <div className="flex items-center gap-1 bg-red-600/90 px-2 py-0.5 rounded-full">
-              <span className="live-indicator w-1.5 h-1.5 rounded-full bg-white inline-block" />
+              <span className="w-1.5 h-1.5 rounded-full bg-white inline-block animate-pulse" />
               <span className="text-white text-[9px] font-bold uppercase">LIVE</span>
             </div>
           </div>
         </div>
 
-        {/* Quality menu */}
+        {/* Sub menus */}
         {showSubMenu === "quality" && (
-          <div className="absolute bottom-20 right-4 bg-black/90 rounded-xl p-2 z-30" onClick={(e) => e.stopPropagation()}>
+          <div className="absolute bottom-20 right-4 bg-black/95 rounded-xl p-2 z-30 min-w-[120px]" onClick={(e) => e.stopPropagation()}>
             <p className="text-white/60 text-[10px] font-bold uppercase px-2 mb-1">Qualidade</p>
             {(availableLevels.length > 1 ? availableLevels : QUALITY_OPTIONS).map((q) => (
               <button
@@ -262,9 +283,27 @@ const VideoPlayer = ({ channel }: VideoPlayerProps) => {
                 onClick={() => handleQualityChange(q.level)}
                 className={`block w-full text-left px-3 py-1.5 rounded-lg text-xs ${
                   selectedQuality === q.level ? "bg-primary text-white" : "text-white/80 hover:bg-white/10"
-                }`}
+                } active:scale-95 transition-transform`}
               >
                 {q.label}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {showSubMenu === "language" && (
+          <div className="absolute bottom-20 right-4 bg-black/95 rounded-xl p-2 z-30 min-w-[140px]" onClick={(e) => e.stopPropagation()}>
+            <p className="text-white/60 text-[10px] font-bold uppercase px-2 mb-1">Idioma / Legenda</p>
+            {LANGUAGES.map((lang) => (
+              <button
+                key={lang.code}
+                onClick={() => { setSelectedLang(lang.code); setShowSubMenu(null); }}
+                className={`flex items-center gap-2 w-full text-left px-3 py-1.5 rounded-lg text-xs ${
+                  selectedLang === lang.code ? "bg-primary text-white" : "text-white/80 hover:bg-white/10"
+                } active:scale-95 transition-transform`}
+              >
+                <img src={lang.flag} alt="" className="w-4 h-3 rounded-sm object-cover" />
+                {lang.label}
               </button>
             ))}
           </div>
@@ -273,20 +312,32 @@ const VideoPlayer = ({ channel }: VideoPlayerProps) => {
         {/* Bottom bar */}
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3 flex items-center justify-end gap-2">
           <button
+            onClick={(e) => { e.stopPropagation(); rotateScreen(); }}
+            className="text-white w-10 h-10 flex items-center justify-center rounded-full bg-white/10 active:scale-90 transition-transform"
+          >
+            <RotateCw size={18} />
+          </button>
+          <button
+            onClick={(e) => { e.stopPropagation(); setShowSubMenu(showSubMenu === "language" ? null : "language"); }}
+            className="text-white w-10 h-10 flex items-center justify-center rounded-full bg-white/10 active:scale-90 transition-transform"
+          >
+            <Languages size={18} />
+          </button>
+          <button
             onClick={(e) => { e.stopPropagation(); setShowSubMenu(showSubMenu === "quality" ? null : "quality"); }}
-            className="text-white w-10 h-10 flex items-center justify-center rounded-full bg-white/10"
+            className="text-white w-10 h-10 flex items-center justify-center rounded-full bg-white/10 active:scale-90 transition-transform"
           >
             <Settings size={18} />
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); setMuted(!muted); }}
-            className="text-white w-10 h-10 flex items-center justify-center rounded-full bg-white/10"
+            className="text-white w-10 h-10 flex items-center justify-center rounded-full bg-white/10 active:scale-90 transition-transform"
           >
             {muted ? <VolumeX size={18} /> : <Volume2 size={18} />}
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); toggleFullscreen(); }}
-            className="text-white w-10 h-10 flex items-center justify-center rounded-full bg-white/10"
+            className="text-white w-10 h-10 flex items-center justify-center rounded-full bg-white/10 active:scale-90 transition-transform"
           >
             {isFullscreen ? <Minimize size={18} /> : <Maximize size={18} />}
           </button>
