@@ -144,7 +144,7 @@ export const channelGroups: ChannelGroup[] = [
       { id: "pt-22", name: "RTP 3", logo: "https://i.imgur.com/8kQ9LhP.png", url: "https://streaming-live.rtp.pt/liverepeater/smil:rtp3HD.smil/playlist.m3u8", country: "Portugal", category: "Notícias" },
       { id: "pt-23", name: "Canal Parlamento PT", logo: "https://i.imgur.com/BUO0wH6.png", url: "https://streaming-live.rtp.pt/liverepeater/smil:rtpnHD.smil/playlist.m3u8", country: "Portugal", category: "Governo" },
       { id: "pt-24", name: "RTP Palco", logo: "https://i.imgur.com/jCpfdiJ.png", url: "https://streaming-live.rtp.pt/liverepeater/smil:rtppalco.smil/playlist.m3u8", country: "Portugal", category: "Cultura" },
-      { id: "pt-25", name: "SIC Radical", logo: "https://i.imgur.com/Gi6Q26M.png", url: "https://production-fast-sic.content.okast.tv/fa2e8c4385712f9a0e9c4bbe12bd9b6b/channels/d9070446-8448-455e-8075-773b1ba12562/75cc6b36-d7b0-4e7d-8cd2-2d05f4d43c1c/media_.m3u8", country: "Portugal", category: "Entretenimento" },
+      { id: "pt-25", name: "SIC Radical", logo: "https://i.imgur.com/fj84mXz.png", url: "https://production-fast-sic.content.okast.tv/fa2e8c4385712f9a0e9c4bbe12bd9b6b/channels/d9070446-8448-455e-8075-773b1ba12562/75cc6b36-d7b0-4e7d-8cd2-2d05f4d43c1c/media_.m3u8", country: "Portugal", category: "Entretenimento" },
     ],
   },
   {
