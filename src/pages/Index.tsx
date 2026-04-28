@@ -1,10 +1,12 @@
 import { useState, useEffect, useMemo } from "react";
-import { Search, Wifi, TrendingUp, Eye, Star, Download } from "lucide-react";
+import { Search, Wifi, TrendingUp, Eye, Star, Download, LogOut } from "lucide-react";
 import { channelGroups, getAllChannels, getPopularChannels, getViewerCount } from "@/data/channels";
 import { useM3UServers } from "@/hooks/useM3UParser";
+import { useAuth } from "@/hooks/useAuth";
 import ChannelRow from "@/components/ChannelRow";
 import ChannelCard from "@/components/ChannelCard";
 import PopularCard from "@/components/PopularCard";
+import PlanBanner from "@/components/PlanBanner";
 import { useNavigate } from "react-router-dom";
 import type { Channel } from "@/data/channels";
 
