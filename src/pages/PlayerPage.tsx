@@ -2,23 +2,23 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getAllChannels } from "@/data/channels";
 import { supabase } from "@/integrations/supabase/client";
 import VideoPlayer from "@/components/VideoPlayer";
+import PlanGate from "@/components/PlanGate";
+import { useAuth, isChannelFree } from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
 import type { Channel } from "@/data/channels";
 
 const PlayerPage = () => {
   const { channelId } = useParams();
   const navigate = useNavigate();
+  const { activePlan, isAdmin } = useAuth();
   const [channel, setChannel] = useState<Channel | null>(null);
 
   useEffect(() => {
-    // Check static channels first
     const staticChannel = getAllChannels().find((c) => c.id === channelId);
     if (staticChannel) {
       setChannel(staticChannel);
       return;
     }
-
-    // Check server channels (srv-<uuid>)
     if (channelId?.startsWith("srv-")) {
       const uuid = channelId.replace("srv-", "");
       supabase
@@ -46,6 +46,10 @@ const PlayerPage = () => {
   }, [channelId, navigate]);
 
   if (!channel) return null;
+
+  // Verificação de plano: admin sempre passa, canais grátis passam, resto exige plano
+  const allowed = isAdmin || activePlan || isChannelFree(channel.id);
+  if (!allowed) return <PlanGate channelName={channel.name} />;
 
   return (
     <div className="h-full w-full">

@@ -1,8 +1,9 @@
 import { memo, useState, useEffect } from "react";
-import { Eye, Tv } from "lucide-react";
+import { Eye, Tv, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { Channel } from "@/data/channels";
 import { getViewerCount } from "@/data/channels";
+import { useAuth, isChannelFree } from "@/hooks/useAuth";
 
 interface ChannelCardProps {
   channel: Channel;
@@ -11,8 +12,11 @@ interface ChannelCardProps {
 
 const ChannelCard = memo(({ channel, index }: ChannelCardProps) => {
   const navigate = useNavigate();
+  const { activePlan, isAdmin } = useAuth();
   const [viewers, setViewers] = useState(() => getViewerCount(channel.id));
   const [imgError, setImgError] = useState(false);
+
+  const locked = !isAdmin && !activePlan && !isChannelFree(channel.id);
 
   useEffect(() => {
     const iv = setInterval(() => {
@@ -31,7 +35,7 @@ const ChannelCard = memo(({ channel, index }: ChannelCardProps) => {
           <img
             src={channel.logo}
             alt={channel.name}
-            className="w-11 h-11 object-contain pointer-events-none select-none"
+            className={`w-11 h-11 object-contain pointer-events-none select-none ${locked ? "opacity-30 grayscale" : ""}`}
             loading="lazy"
             draggable={false}
             onContextMenu={(e) => e.preventDefault()}
@@ -42,9 +46,24 @@ const ChannelCard = memo(({ channel, index }: ChannelCardProps) => {
             <Tv size={18} className="text-primary" />
           </div>
         )}
-        <div className="absolute top-1 left-1">
-          <span className="ink-stamp text-[6px] text-primary font-bold">CH</span>
-        </div>
+
+        {locked && (
+          <div className="absolute inset-0 bg-foreground/40 flex items-center justify-center">
+            <Lock size={20} className="text-background drop-shadow-lg" />
+          </div>
+        )}
+
+        {!locked && isChannelFree(channel.id) && (
+          <div className="absolute top-1 left-1">
+            <span className="ink-stamp text-[6px] text-green-700 font-bold bg-green-500/30 px-1">FREE</span>
+          </div>
+        )}
+        {!locked && !isChannelFree(channel.id) && (
+          <div className="absolute top-1 left-1">
+            <span className="ink-stamp text-[6px] text-primary font-bold">CH</span>
+          </div>
+        )}
+
         <div className="absolute top-1.5 right-1.5">
           <span className="live-indicator inline-block w-1.5 h-1.5 rounded-full bg-primary" />
         </div>
