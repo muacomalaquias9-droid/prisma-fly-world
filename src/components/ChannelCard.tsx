@@ -1,5 +1,5 @@
 import { memo, useState, useEffect } from "react";
-import { Play, Eye, Tv } from "lucide-react";
+import { Eye, Tv } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { Channel } from "@/data/channels";
 import { getViewerCount } from "@/data/channels";
@@ -24,9 +24,9 @@ const ChannelCard = memo(({ channel, index }: ChannelCardProps) => {
   return (
     <button
       onClick={() => navigate(`/player/${channel.id}`)}
-      className="flex-shrink-0 w-[100px] group active:scale-90 transition-transform"
+      className="flex-shrink-0 w-[100px] group active:translate-y-[1px] transition-transform"
     >
-      <div className="relative bg-card rounded-2xl overflow-hidden border border-border aspect-square flex items-center justify-center select-none shadow-sm">
+      <div className="relative vintage-card crt-lines overflow-hidden aspect-square flex items-center justify-center select-none">
         {!imgError ? (
           <img
             src={channel.logo}
@@ -38,24 +38,27 @@ const ChannelCard = memo(({ channel, index }: ChannelCardProps) => {
             onError={() => setImgError(true)}
           />
         ) : (
-          <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center">
+          <div className="w-11 h-11 bg-primary/15 border border-primary/40 flex items-center justify-center">
             <Tv size={18} className="text-primary" />
           </div>
         )}
+        <div className="absolute top-1 left-1">
+          <span className="ink-stamp text-[6px] text-primary font-bold">CH</span>
+        </div>
         <div className="absolute top-1.5 right-1.5">
-          <span className="live-indicator inline-block w-1.5 h-1.5 rounded-full bg-red-500" />
+          <span className="live-indicator inline-block w-1.5 h-1.5 rounded-full bg-primary" />
         </div>
         <div className="absolute bottom-1 right-1">
-          <div className="flex items-center gap-0.5 bg-foreground/50 px-1 py-0.5 rounded-full">
-            <Eye size={6} className="text-white" />
-            <span className="text-white text-[6px] font-bold">{viewers}</span>
+          <div className="flex items-center gap-0.5 bg-foreground/80 px-1 py-0.5">
+            <Eye size={6} className="text-background" />
+            <span className="text-background text-[6px] font-bold font-typewriter">{viewers}</span>
           </div>
         </div>
       </div>
-      <p className="mt-1 text-[9px] font-semibold text-foreground truncate text-left leading-tight">
+      <p className="mt-1 text-[10px] font-display text-foreground truncate text-left leading-tight">
         {channel.name}
       </p>
-      <p className="text-[7px] text-muted-foreground truncate text-left">{channel.category}</p>
+      <p className="text-[7px] text-muted-foreground truncate text-left ink-stamp">{channel.category}</p>
     </button>
   );
 });
