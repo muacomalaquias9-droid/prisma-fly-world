@@ -88,9 +88,14 @@ const Index = () => {
                 <span className="live-indicator w-1.5 h-1.5 rounded-full bg-primary inline-block" />
                 <span className="text-foreground text-[8px] font-bold ink-stamp">No Ar</span>
               </div>
+              <button onClick={signOut} className="p-1 hover:bg-secondary rounded" aria-label="Sair">
+                <LogOut size={12} className="text-foreground/70" />
+              </button>
             </div>
           </div>
         </div>
+
+        <PlanBanner />
 
         <div className="mt-3 relative">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground" />
