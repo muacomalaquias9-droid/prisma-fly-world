@@ -1,51 +1,62 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Special+Elite&family=IBM+Plex+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* =========================================================
+   PRISMAFLY — TEMA "1967"
+   Inspirado em rádios valvulados, TVs de madeira,
+   cartazes Saul Bass, papel envelhecido e tipografia serif.
+   ========================================================= */
+
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222 47% 11%;
+    /* Papel envelhecido / creme */
+    --background: 38 45% 92%;
+    --foreground: 24 35% 14%;
 
-    --card: 210 40% 98%;
-    --card-foreground: 222 47% 11%;
+    /* Cartão = papel mais escuro com leve calor */
+    --card: 36 40% 87%;
+    --card-foreground: 24 35% 14%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover: 38 45% 94%;
+    --popover-foreground: 24 35% 14%;
 
-    --primary: 239 84% 67%;
-    --primary-foreground: 0 0% 100%;
+    /* Vermelho-tijolo / laranja queimado anos 60 */
+    --primary: 14 72% 42%;
+    --primary-foreground: 40 50% 95%;
 
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
+    /* Mostarda envelhecida */
+    --secondary: 38 60% 78%;
+    --secondary-foreground: 24 40% 18%;
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 36 30% 82%;
+    --muted-foreground: 24 20% 36%;
 
-    --accent: 239 84% 67%;
-    --accent-foreground: 0 0% 100%;
+    /* Mostarda viva como acento */
+    --accent: 38 78% 50%;
+    --accent-foreground: 24 50% 12%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 65% 42%;
+    --destructive-foreground: 40 50% 95%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 239 84% 67%;
+    --border: 28 30% 60%;
+    --input: 36 35% 80%;
+    --ring: 14 72% 42%;
 
-    --radius: 0.75rem;
+    --radius: 0.25rem;
 
-    --player-bg: 0 0% 0%;
+    --player-bg: 24 30% 6%;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 36 40% 87%;
+    --sidebar-foreground: 24 35% 14%;
+    --sidebar-primary: 14 72% 42%;
+    --sidebar-primary-foreground: 40 50% 95%;
+    --sidebar-accent: 38 60% 78%;
+    --sidebar-accent-foreground: 24 40% 18%;
+    --sidebar-border: 28 30% 60%;
+    --sidebar-ring: 14 72% 42%;
   }
 }
 
@@ -62,6 +73,15 @@
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
     touch-action: pan-x pan-y;
+
+    /* Textura de papel envelhecido */
+    background-color: hsl(var(--background));
+    background-image:
+      radial-gradient(hsl(24 35% 14% / 0.06) 1px, transparent 1px),
+      radial-gradient(hsl(24 35% 14% / 0.04) 1px, transparent 1px),
+      linear-gradient(180deg, hsl(38 50% 94%) 0%, hsl(36 40% 88%) 100%);
+    background-size: 3px 3px, 7px 7px, 100% 100%;
+    background-position: 0 0, 1px 1px, 0 0;
   }
   #root {
     height: 100dvh;
@@ -72,15 +92,26 @@
     -webkit-touch-callout: none;
     pointer-events: none;
     user-select: none;
+    /* leve dessaturação para casar com paleta vintage */
+    filter: sepia(0.12) saturate(0.95) contrast(0.98);
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: 'DM Serif Display', 'Playfair Display', Georgia, serif;
+    letter-spacing: 0.005em;
   }
 }
 
 @layer utilities {
   .font-display {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'DM Serif Display', 'Playfair Display', Georgia, serif;
   }
   .font-body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    letter-spacing: 0.01em;
+  }
+  .font-typewriter {
+    font-family: 'Special Elite', 'Courier New', monospace;
   }
   .scrollbar-hide {
     -ms-overflow-style: none;
@@ -95,6 +126,45 @@
   .safe-area-bottom {
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
+
+  /* Card vintage com sombra dura tipo impressão offset */
+  .vintage-card {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    box-shadow:
+      2px 2px 0 0 hsl(24 35% 14% / 0.85),
+      inset 0 0 0 1px hsl(38 50% 94% / 0.4);
+  }
+
+  .vintage-frame {
+    border: 2px double hsl(var(--foreground));
+    box-shadow: 3px 3px 0 0 hsl(var(--primary));
+  }
+
+  /* Linha de varredura de TV CRT */
+  .crt-lines {
+    position: relative;
+  }
+  .crt-lines::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg,
+      hsl(24 35% 14% / 0.06) 0px,
+      hsl(24 35% 14% / 0.06) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    mix-blend-mode: multiply;
+  }
+
+  .ink-stamp {
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-family: 'Special Elite', monospace;
+  }
 }
 
 @keyframes shimmer {
@@ -103,16 +173,25 @@
 }
 
 .skeleton-shimmer {
-  background: linear-gradient(90deg, hsl(210 40% 96%) 25%, hsl(210 40% 92%) 50%, hsl(210 40% 96%) 75%);
+  background: linear-gradient(90deg, hsl(36 30% 82%) 25%, hsl(36 30% 76%) 50%, hsl(36 30% 82%) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
 }
 
 @keyframes pulse-glow {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
+  50% { opacity: 0.55; }
 }
 
 .live-indicator {
-  animation: pulse-glow 2s ease-in-out infinite;
+  animation: pulse-glow 1.6s ease-in-out infinite;
 }
+
+/* Pequeno flicker estilo tubo de TV antigo */
+@keyframes tv-flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 0.96; }
+  94% { opacity: 0.88; }
+  96% { opacity: 1; }
+}
+.tv-flicker { animation: tv-flicker 5s infinite; }
