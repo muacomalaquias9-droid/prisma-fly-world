@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
-import { Eye, Tv } from "lucide-react";
+import { Eye, Tv, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { Channel } from "@/data/channels";
 import { getViewerCount } from "@/data/channels";
+import { useAuth, isChannelFree } from "@/hooks/useAuth";
 
 const PopularCard = ({ channel }: { channel: Channel }) => {
   const navigate = useNavigate();
+  const { activePlan, isAdmin } = useAuth();
+  const locked = !isAdmin && !activePlan && !isChannelFree(channel.id);
   const [viewers, setViewers] = useState(() => getViewerCount(channel.id));
   const [imgError, setImgError] = useState(false);
 
@@ -26,7 +29,7 @@ const PopularCard = ({ channel }: { channel: Channel }) => {
           <img
             src={channel.logo}
             alt={channel.name}
-            className="w-12 h-12 object-contain pointer-events-none select-none"
+            className={`w-12 h-12 object-contain pointer-events-none select-none ${locked ? "opacity-30 grayscale" : ""}`}
             loading="lazy"
             draggable={false}
             onContextMenu={(e) => e.preventDefault()}
@@ -35,6 +38,11 @@ const PopularCard = ({ channel }: { channel: Channel }) => {
         ) : (
           <div className="w-12 h-12 bg-primary/20 border border-primary/40 flex items-center justify-center">
             <Tv size={20} className="text-primary" />
+          </div>
+        )}
+        {locked && (
+          <div className="absolute inset-0 bg-foreground/50 flex items-center justify-center z-10">
+            <Lock size={24} className="text-background drop-shadow-lg" />
           </div>
         )}
         <div className="absolute top-1.5 left-1.5">
