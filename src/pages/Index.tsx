@@ -16,6 +16,8 @@ const Index = () => {
   const [globalViewers, setGlobalViewers] = useState(0);
   const [installPrompt, setInstallPrompt] = useState<any>(null);
   const { serverChannels, loading: serversLoading } = useM3UServers();
+  const { signOut } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handler = (e: any) => { e.preventDefault(); setInstallPrompt(e); };
