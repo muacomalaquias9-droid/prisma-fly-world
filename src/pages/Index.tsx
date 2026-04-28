@@ -54,43 +54,49 @@ const Index = () => {
 
   return (
     <div className="h-full flex flex-col bg-background">
-      <header className="flex-shrink-0 px-4 pt-3 pb-2 bg-gradient-to-b from-primary/5 to-transparent safe-area-top">
+      <header className="flex-shrink-0 px-4 pt-3 pb-3 border-b-2 border-double border-foreground/70 safe-area-top tv-flicker">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="font-display font-extrabold text-xl text-foreground tracking-tight">
-              Prisma<span className="text-primary">Fly</span>
+            <p className="ink-stamp text-[8px] text-primary font-bold">★ Transmissão Mundial ★ Est. 1967</p>
+            <h1 className="font-display font-normal text-3xl text-foreground leading-none tracking-tight">
+              Prisma<span className="italic text-primary">Fly</span>
             </h1>
-            <p className="text-[9px] text-muted-foreground mt-0.5">TV ao vivo • Mundo inteiro</p>
+            <p className="text-[9px] text-muted-foreground mt-0.5 font-typewriter uppercase tracking-widest">
+              — Televisão ao vivo · do mundo inteiro —
+            </p>
           </div>
-          <div className="flex items-center gap-1.5">
+          <div className="flex flex-col items-end gap-1">
             {installPrompt && (
               <button
                 onClick={handleInstall}
-                className="flex items-center gap-1 bg-primary text-primary-foreground px-2.5 py-1 rounded-full text-[10px] font-bold active:scale-90 transition-transform"
+                className="flex items-center gap-1 bg-primary text-primary-foreground px-2.5 py-1 text-[10px] font-bold ink-stamp vintage-frame active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
               >
                 <Download size={10} />
                 Instalar
               </button>
             )}
-            <div className="flex items-center gap-1 bg-primary/10 px-2 py-1 rounded-full">
-              <Eye size={9} className="text-primary" />
-              <span className="text-primary text-[9px] font-bold">{globalViewers}</span>
-            </div>
-            <div className="flex items-center gap-1 bg-green-500/10 px-2 py-1 rounded-full">
-              <Wifi size={9} className="text-green-500" />
-              <span className="text-green-600 text-[8px] font-semibold">Online</span>
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1 bg-primary/10 border border-primary/40 px-2 py-0.5 rounded-sm">
+                <Eye size={9} className="text-primary" />
+                <span className="text-primary text-[9px] font-bold font-typewriter">{globalViewers}</span>
+              </div>
+              <div className="flex items-center gap-1 bg-accent/30 border border-accent/60 px-2 py-0.5 rounded-sm">
+                <span className="live-indicator w-1.5 h-1.5 rounded-full bg-primary inline-block" />
+                <span className="text-foreground text-[8px] font-bold ink-stamp">No Ar</span>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-2 relative">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+        <div className="mt-3 relative">
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground" />
           <input
             type="text"
-            placeholder="Buscar canais, países..."
+            placeholder="Procurar canais, países…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-card border border-border rounded-xl text-sm font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="w-full pl-9 pr-4 py-2 bg-card border-2 border-foreground/70 text-sm font-typewriter text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary"
+            style={{ boxShadow: "2px 2px 0 0 hsl(var(--foreground))" }}
           />
         </div>
       </header>
