@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
-import { Eye, Tv } from "lucide-react";
+import { Eye, Tv, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { Channel } from "@/data/channels";
 import { getViewerCount } from "@/data/channels";
+import { useAuth, isChannelFree } from "@/hooks/useAuth";
 
 const PopularCard = ({ channel }: { channel: Channel }) => {
   const navigate = useNavigate();
+  const { activePlan, isAdmin } = useAuth();
+  const locked = !isAdmin && !activePlan && !isChannelFree(channel.id);
   const [viewers, setViewers] = useState(() => getViewerCount(channel.id));
   const [imgError, setImgError] = useState(false);
 
