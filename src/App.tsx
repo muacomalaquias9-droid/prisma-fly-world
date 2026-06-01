@@ -14,6 +14,7 @@ import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import Plans from "./pages/Plans";
 import Admin from "./pages/Admin";
+import Docs from "./pages/Docs";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +47,7 @@ const Shell = () => {
           <Route path="/settings" element={<RequireAuth><SettingsPage /></RequireAuth>} />
           <Route path="/plans" element={<RequireAuth><Plans /></RequireAuth>} />
           <Route path="/admin" element={<RequireAuth><Admin /></RequireAuth>} />
+          <Route path="/docs" element={<RequireAuth><Docs /></RequireAuth>} />
           <Route path="/player/:channelId" element={<RequireAuth><PlayerPage /></RequireAuth>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
