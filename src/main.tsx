@@ -1,6 +1,10 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
+import { unlockOrientation } from "./lib/device";
+
+// Permitir rotação livre (portrait + landscape) — útil em apps nativos
+unlockOrientation();
 
 // ====== Proteção em produção ======
 if (import.meta.env.PROD) {
