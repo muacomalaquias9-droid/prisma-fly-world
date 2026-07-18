@@ -1,62 +1,56 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Special+Elite&family=IBM+Plex+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* =========================================================
-   PRISMAFLY — TEMA "1967"
-   Inspirado em rádios valvulados, TVs de madeira,
-   cartazes Saul Bass, papel envelhecido e tipografia serif.
+   PRISMAFLY — Clean white mobile app (Flutter/Dart inspired)
    ========================================================= */
 
 @layer base {
   :root {
-    /* Papel envelhecido / creme */
-    --background: 38 45% 92%;
-    --foreground: 24 35% 14%;
+    --background: 0 0% 100%;
+    --foreground: 220 15% 12%;
 
-    /* Cartão = papel mais escuro com leve calor */
-    --card: 36 40% 87%;
-    --card-foreground: 24 35% 14%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 15% 12%;
 
-    --popover: 38 45% 94%;
-    --popover-foreground: 24 35% 14%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 15% 12%;
 
-    /* Vermelho-tijolo / laranja queimado anos 60 */
-    --primary: 14 72% 42%;
-    --primary-foreground: 40 50% 95%;
+    /* Primary = laranja PrismaFly */
+    --primary: 18 95% 55%;
+    --primary-foreground: 0 0% 100%;
 
-    /* Mostarda envelhecida */
-    --secondary: 38 60% 78%;
-    --secondary-foreground: 24 40% 18%;
+    --secondary: 220 15% 96%;
+    --secondary-foreground: 220 15% 12%;
 
-    --muted: 36 30% 82%;
-    --muted-foreground: 24 20% 36%;
+    --muted: 220 15% 96%;
+    --muted-foreground: 220 8% 45%;
 
-    /* Mostarda viva como acento */
-    --accent: 38 78% 50%;
-    --accent-foreground: 24 50% 12%;
+    --accent: 18 95% 55%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 65% 42%;
-    --destructive-foreground: 40 50% 95%;
+    --destructive: 0 84% 55%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 28 30% 60%;
-    --input: 36 35% 80%;
-    --ring: 14 72% 42%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 18 95% 55%;
 
-    --radius: 0.25rem;
+    --radius: 1rem;
 
-    --player-bg: 24 30% 6%;
+    --player-bg: 0 0% 0%;
 
-    --sidebar-background: 36 40% 87%;
-    --sidebar-foreground: 24 35% 14%;
-    --sidebar-primary: 14 72% 42%;
-    --sidebar-primary-foreground: 40 50% 95%;
-    --sidebar-accent: 38 60% 78%;
-    --sidebar-accent-foreground: 24 40% 18%;
-    --sidebar-border: 28 30% 60%;
-    --sidebar-ring: 14 72% 42%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 15% 12%;
+    --sidebar-primary: 18 95% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 15% 96%;
+    --sidebar-accent-foreground: 220 15% 12%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 18 95% 55%;
   }
 }
 
@@ -65,7 +59,8 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-body antialiased;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     overflow: hidden;
     height: 100dvh;
     -webkit-user-select: none;
@@ -73,15 +68,6 @@
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
     touch-action: pan-x pan-y;
-
-    /* Textura de papel envelhecido */
-    background-color: hsl(var(--background));
-    background-image:
-      radial-gradient(hsl(24 35% 14% / 0.06) 1px, transparent 1px),
-      radial-gradient(hsl(24 35% 14% / 0.04) 1px, transparent 1px),
-      linear-gradient(180deg, hsl(38 50% 94%) 0%, hsl(36 40% 88%) 100%);
-    background-size: 3px 3px, 7px 7px, 100% 100%;
-    background-position: 0 0, 1px 1px, 0 0;
   }
   #root {
     height: 100dvh;
@@ -90,28 +76,25 @@
   img {
     -webkit-user-drag: none;
     -webkit-touch-callout: none;
-    pointer-events: none;
     user-select: none;
-    /* leve dessaturação para casar com paleta vintage */
-    filter: sepia(0.12) saturate(0.95) contrast(0.98);
   }
 
   h1, h2, h3, .font-display {
-    font-family: 'DM Serif Display', 'Playfair Display', Georgia, serif;
-    letter-spacing: 0.005em;
+    font-family: 'Outfit', 'Inter', sans-serif;
+    letter-spacing: -0.02em;
   }
 }
 
 @layer utilities {
   .font-display {
-    font-family: 'DM Serif Display', 'Playfair Display', Georgia, serif;
+    font-family: 'Outfit', 'Inter', sans-serif;
+    letter-spacing: -0.01em;
   }
   .font-body {
-    font-family: 'IBM Plex Mono', 'Courier New', monospace;
-    letter-spacing: 0.01em;
+    font-family: 'Inter', sans-serif;
   }
   .font-typewriter {
-    font-family: 'Special Elite', 'Courier New', monospace;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
   }
   .scrollbar-hide {
     -ms-overflow-style: none;
@@ -127,44 +110,31 @@
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
-  /* Card vintage com sombra dura tipo impressão offset */
+  /* Card mobile — branco com sombra suave */
   .vintage-card {
     background: hsl(var(--card));
     border: 1px solid hsl(var(--border));
-    box-shadow:
-      2px 2px 0 0 hsl(24 35% 14% / 0.85),
-      inset 0 0 0 1px hsl(38 50% 94% / 0.4);
+    border-radius: 14px;
+    box-shadow: 0 1px 2px hsl(220 15% 12% / 0.04), 0 4px 12px hsl(220 15% 12% / 0.04);
   }
 
   .vintage-frame {
-    border: 2px double hsl(var(--foreground));
-    box-shadow: 3px 3px 0 0 hsl(var(--primary));
+    border: 1px solid hsl(var(--border));
+    border-radius: 12px;
+    box-shadow: 0 2px 8px hsl(220 15% 12% / 0.06);
   }
 
-  /* Linha de varredura de TV CRT */
-  .crt-lines {
-    position: relative;
-  }
-  .crt-lines::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: repeating-linear-gradient(
-      0deg,
-      hsl(24 35% 14% / 0.06) 0px,
-      hsl(24 35% 14% / 0.06) 1px,
-      transparent 1px,
-      transparent 3px
-    );
-    mix-blend-mode: multiply;
-  }
+  /* Remove antigo efeito CRT — mantém a classe para não quebrar componentes */
+  .crt-lines { position: relative; }
 
   .ink-stamp {
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    font-family: 'Special Elite', monospace;
+    letter-spacing: 0.08em;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
   }
+
+  .tv-flicker { animation: none; }
 }
 
 @keyframes shimmer {
@@ -173,25 +143,16 @@
 }
 
 .skeleton-shimmer {
-  background: linear-gradient(90deg, hsl(36 30% 82%) 25%, hsl(36 30% 76%) 50%, hsl(36 30% 82%) 75%);
+  background: linear-gradient(90deg, hsl(220 15% 96%) 25%, hsl(220 15% 92%) 50%, hsl(220 15% 96%) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
 }
 
 @keyframes pulse-glow {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.55; }
+  50% { opacity: 0.4; }
 }
 
 .live-indicator {
   animation: pulse-glow 1.6s ease-in-out infinite;
 }
-
-/* Pequeno flicker estilo tubo de TV antigo */
-@keyframes tv-flicker {
-  0%, 100% { opacity: 1; }
-  92% { opacity: 0.96; }
-  94% { opacity: 0.88; }
-  96% { opacity: 1; }
-}
-.tv-flicker { animation: tv-flicker 5s infinite; }
