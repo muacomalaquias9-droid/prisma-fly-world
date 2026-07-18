@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { Tv, Mail, Lock, User as UserIcon, Loader2, Eye, EyeOff } from "lucide-react";
+import { Tv, Mail, Lock, User as UserIcon, Loader2, Eye, EyeOff, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -66,114 +66,130 @@ const AuthPage = ({ mode }: { mode: "login" | "signup" }) => {
   };
 
   return (
-    <div className="min-h-[100dvh] w-full flex flex-col bg-gradient-to-b from-[#0a0e1a] via-[#0f1730] to-[#0a0e1a] text-white overflow-y-auto">
-      {/* Hero */}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-10 max-w-md mx-auto w-full">
+    <div className="min-h-[100dvh] w-full flex flex-col bg-background text-foreground overflow-y-auto safe-area-top">
+      <div className="flex-1 flex flex-col px-6 pt-14 pb-8 max-w-md mx-auto w-full">
         {/* Logo */}
-        <div className="flex flex-col items-center mb-8">
-          <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-[#ff6b35] to-[#f7931e] flex items-center justify-center shadow-2xl shadow-orange-500/40 mb-4">
-            <Tv className="w-10 h-10 text-white" strokeWidth={2.5} />
+        <div className="flex flex-col items-center mb-10">
+          <div className="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-primary/25 mb-4">
+            <Tv className="w-8 h-8 text-primary-foreground" strokeWidth={2.5} />
           </div>
-          <h1 className="text-3xl font-bold tracking-tight">
-            Prisma<span className="text-[#ff6b35]">Fly</span>
+          <h1 className="text-3xl font-display font-bold tracking-tight text-foreground">
+            Prisma<span className="text-primary">Fly</span>
           </h1>
-          <p className="text-xs text-white/50 mt-1 tracking-wider uppercase">
-            Televisão ao Vivo
-          </p>
+          <p className="text-xs text-muted-foreground mt-1">Televisão ao vivo</p>
         </div>
 
-        {/* Card */}
-        <div className="w-full bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 shadow-2xl">
-          <h2 className="text-xl font-semibold mb-1">
-            {mode === "login" ? "Entrar" : "Criar Conta"}
+        {/* Title */}
+        <div className="mb-6">
+          <h2 className="text-2xl font-display font-bold text-foreground">
+            {mode === "login" ? "Bem-vindo de volta 👋" : "Criar conta"}
           </h2>
-          <p className="text-xs text-white/50 mb-5">
+          <p className="text-sm text-muted-foreground mt-1">
             {mode === "login"
-              ? "Acede aos teus canais favoritos"
-              : "Junta-te à PrismaFly em segundos"}
+              ? "Entra para veres os teus canais."
+              : "Regista-te em poucos segundos."}
           </p>
-
-          <form onSubmit={submit} className="space-y-3">
-            {mode === "signup" && (
-              <div className="relative">
-                <UserIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
-                <input
-                  type="text"
-                  placeholder="Nome"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-3 py-3 text-sm placeholder:text-white/30 focus:outline-none focus:border-[#ff6b35] focus:bg-white/10 transition"
-                  required
-                />
-              </div>
-            )}
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-3 py-3 text-sm placeholder:text-white/30 focus:outline-none focus:border-[#ff6b35] focus:bg-white/10 transition"
-                required
-                autoComplete="email"
-              />
-            </div>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
-              <input
-                type={showPwd ? "text" : "password"}
-                placeholder="Palavra-passe"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-10 py-3 text-sm placeholder:text-white/30 focus:outline-none focus:border-[#ff6b35] focus:bg-white/10 transition"
-                required
-                autoComplete={mode === "login" ? "current-password" : "new-password"}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPwd((v) => !v)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white"
-              >
-                {showPwd ? <EyeOff size={16} /> : <Eye size={16} />}
-              </button>
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full mt-2 bg-gradient-to-r from-[#ff6b35] to-[#f7931e] text-white font-semibold py-3 rounded-xl shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 active:scale-[0.98] transition disabled:opacity-60 flex items-center justify-center gap-2"
-            >
-              {loading && <Loader2 className="w-4 h-4 animate-spin" />}
-              {mode === "login" ? "Entrar" : "Criar Conta"}
-            </button>
-          </form>
-
-          <div className="mt-5 text-center text-xs text-white/50">
-            {mode === "login" ? (
-              <>
-                Não tens conta?{" "}
-                <Link to="/signup" className="text-[#ff6b35] font-semibold hover:underline">
-                  Cria uma
-                </Link>
-              </>
-            ) : (
-              <>
-                Já tens conta?{" "}
-                <Link to="/login" className="text-[#ff6b35] font-semibold hover:underline">
-                  Entrar
-                </Link>
-              </>
-            )}
-          </div>
         </div>
 
-        <p className="text-[10px] text-white/30 mt-6 text-center px-4">
-          Ao continuar, aceitas que o acesso aos canais premium requer um plano ativo.
+        <form onSubmit={submit} className="space-y-4">
+          {mode === "signup" && (
+            <Field icon={<UserIcon size={16} />} label="Nome">
+              <input
+                type="text"
+                placeholder="O teu nome"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full bg-transparent text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none"
+                required
+              />
+            </Field>
+          )}
+          <Field icon={<Mail size={16} />} label="Email">
+            <input
+              type="email"
+              placeholder="tu@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full bg-transparent text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none"
+              required
+              autoComplete="email"
+            />
+          </Field>
+          <Field icon={<Lock size={16} />} label="Palavra-passe">
+            <input
+              type={showPwd ? "text" : "password"}
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full bg-transparent text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none"
+              required
+              autoComplete={mode === "login" ? "current-password" : "new-password"}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPwd((v) => !v)}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              {showPwd ? <EyeOff size={16} /> : <Eye size={16} />}
+            </button>
+          </Field>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full mt-2 bg-primary text-primary-foreground font-semibold py-4 rounded-2xl shadow-lg shadow-primary/25 active:scale-[0.98] transition disabled:opacity-60 flex items-center justify-center gap-2"
+          >
+            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <>
+              {mode === "login" ? "Entrar" : "Criar conta"}
+              <ArrowRight size={16} />
+            </>}
+          </button>
+        </form>
+
+        <div className="mt-8 text-center text-sm text-muted-foreground">
+          {mode === "login" ? (
+            <>
+              Não tens conta?{" "}
+              <Link to="/signup" className="text-primary font-semibold">
+                Cria uma
+              </Link>
+            </>
+          ) : (
+            <>
+              Já tens conta?{" "}
+              <Link to="/login" className="text-primary font-semibold">
+                Entrar
+              </Link>
+            </>
+          )}
+        </div>
+
+        <p className="text-[11px] text-muted-foreground/70 mt-8 text-center px-4">
+          Ao continuar aceitas que o acesso a canais premium requer um plano ativo.
         </p>
       </div>
     </div>
   );
 };
+
+const Field = ({
+  icon,
+  label,
+  children,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  children: React.ReactNode;
+}) => (
+  <label className="block">
+    <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider ml-1">
+      {label}
+    </span>
+    <div className="mt-1 flex items-center gap-3 bg-secondary border border-border rounded-2xl px-4 py-3.5 focus-within:border-primary focus-within:bg-background transition">
+      <span className="text-muted-foreground">{icon}</span>
+      {children}
+    </div>
+  </label>
+);
 
 export default AuthPage;

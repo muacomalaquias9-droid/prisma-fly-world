@@ -14,9 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['"DM Serif Display"', '"Playfair Display"', "Georgia", "serif"],
-        body: ['"IBM Plex Mono"', '"Courier New"', "monospace"],
-        typewriter: ['"Special Elite"', '"Courier New"', "monospace"],
+        display: ['Outfit', 'Inter', 'sans-serif'],
+        body: ['Inter', 'sans-serif'],
+        typewriter: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       colors: {
         border: "hsl(var(--border))",
