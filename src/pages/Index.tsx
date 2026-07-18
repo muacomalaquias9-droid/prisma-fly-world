@@ -58,57 +58,52 @@ const Index = () => {
 
   return (
     <div className="h-full flex flex-col bg-background">
-      <header className="flex-shrink-0 px-4 pt-3 pb-3 border-b-2 border-double border-foreground/70 safe-area-top tv-flicker">
+      <header className="flex-shrink-0 px-5 pt-4 pb-3 border-b border-border safe-area-top bg-background">
         <div className="flex items-center justify-between">
           <div>
-            <p className="ink-stamp text-[8px] text-primary font-bold">★ Transmissão Mundial ★ Est. 1967</p>
-            <h1 className="font-display font-normal text-3xl text-foreground leading-none tracking-tight">
-              Prisma<span className="italic text-primary">Fly</span>
+            <h1 className="font-display font-extrabold text-2xl text-foreground leading-none tracking-tight">
+              Prisma<span className="text-primary">Fly</span>
             </h1>
-            <p className="text-[9px] text-muted-foreground mt-0.5 font-typewriter uppercase tracking-widest">
-              — Televisão ao vivo · do mundo inteiro —
-            </p>
+            <p className="text-[11px] text-muted-foreground mt-1">Televisão ao vivo</p>
           </div>
-          <div className="flex flex-col items-end gap-1">
+          <div className="flex items-center gap-2">
             {installPrompt && (
               <button
                 onClick={handleInstall}
-                className="flex items-center gap-1 bg-primary text-primary-foreground px-2.5 py-1 text-[10px] font-bold ink-stamp vintage-frame active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
+                className="flex items-center gap-1 bg-primary text-primary-foreground px-3 py-1.5 text-[11px] font-semibold rounded-full active:scale-95 transition"
               >
-                <Download size={10} />
+                <Download size={12} />
                 Instalar
               </button>
             )}
-            <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1 bg-primary/10 border border-primary/40 px-2 py-0.5 rounded-sm">
-                <Eye size={9} className="text-primary" />
-                <span className="text-primary text-[9px] font-bold font-typewriter">{globalViewers}</span>
-              </div>
-              <div className="flex items-center gap-1 bg-accent/30 border border-accent/60 px-2 py-0.5 rounded-sm">
-                <span className="live-indicator w-1.5 h-1.5 rounded-full bg-primary inline-block" />
-                <span className="text-foreground text-[8px] font-bold ink-stamp">No Ar</span>
-              </div>
-              <button onClick={signOut} className="p-1 hover:bg-secondary rounded" aria-label="Sair">
-                <LogOut size={12} className="text-foreground/70" />
-              </button>
+            <div className="flex items-center gap-1.5 bg-secondary px-2.5 py-1 rounded-full">
+              <Eye size={11} className="text-muted-foreground" />
+              <span className="text-foreground text-[11px] font-semibold">{globalViewers}</span>
             </div>
+            <button
+              onClick={signOut}
+              className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center active:scale-95 transition"
+              aria-label="Sair"
+            >
+              <LogOut size={14} className="text-foreground/70" />
+            </button>
           </div>
         </div>
 
         <PlanBanner />
 
         <div className="mt-3 relative">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground" />
+          <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
           <input
             type="text"
             placeholder="Procurar canais, países…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-card border-2 border-foreground/70 text-sm font-typewriter text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary"
-            style={{ boxShadow: "2px 2px 0 0 hsl(var(--foreground))" }}
+            className="w-full pl-11 pr-4 py-3 bg-secondary rounded-2xl text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40"
           />
         </div>
       </header>
+
 
       <main className="flex-1 overflow-y-auto overscroll-contain pb-20 scrollbar-hide">
         {loading ? (
@@ -126,15 +121,15 @@ const Index = () => {
           <div className="pt-2">
             {/* Server Channels */}
             {serverChannels.length > 0 && (
-              <section className="mb-4">
-                <div className="flex items-center gap-2 px-4 mb-2">
-                  <div className="w-5 h-5 rounded-full bg-green-500/10 flex items-center justify-center">
-                    <Wifi size={10} className="text-green-500" />
+              <section className="mb-5">
+                <div className="flex items-center gap-2 px-5 mb-2.5">
+                  <div className="w-6 h-6 rounded-full bg-green-500/10 flex items-center justify-center">
+                    <Wifi size={11} className="text-green-600" />
                   </div>
-                  <h2 className="font-display font-bold text-xs text-foreground">Servidores M3U</h2>
-                  <span className="text-[8px] text-green-500 font-semibold bg-green-500/10 px-1.5 py-0.5 rounded-full">NOVO</span>
+                  <h2 className="font-display font-bold text-sm text-foreground">Servidores M3U</h2>
+                  <span className="text-[9px] text-green-600 font-semibold bg-green-500/10 px-2 py-0.5 rounded-full">NOVO</span>
                 </div>
-                <div className="flex gap-2 overflow-x-auto px-4 pb-2 scrollbar-hide">
+                <div className="flex gap-3 overflow-x-auto px-5 pb-2 scrollbar-hide">
                   {serverChannels.map((ch, i) => (
                     <ChannelCard key={ch.id} channel={ch} index={i} />
                   ))}
@@ -143,15 +138,16 @@ const Index = () => {
             )}
 
             {/* Popular */}
-            <section className="mb-4">
-              <div className="flex items-center gap-2 px-4 mb-2">
-                <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center">
-                  <TrendingUp size={10} className="text-primary" />
+            <section className="mb-5">
+              <div className="flex items-center gap-2 px-5 mb-2.5">
+                <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                  <TrendingUp size={11} className="text-primary" />
                 </div>
-                <h2 className="font-display font-bold text-xs text-foreground">Em Alta</h2>
-                <Star size={10} className="text-amber-500" />
+                <h2 className="font-display font-bold text-sm text-foreground">Em Alta</h2>
+                <Star size={11} className="text-amber-500 fill-amber-500" />
               </div>
-              <div className="flex gap-2.5 overflow-x-auto px-4 pb-2 scrollbar-hide">
+              <div className="flex gap-3 overflow-x-auto px-5 pb-2 scrollbar-hide">
+
                 {popularChannels.map((ch) => (
                   <PopularCard key={ch.id} channel={ch} />
                 ))}
