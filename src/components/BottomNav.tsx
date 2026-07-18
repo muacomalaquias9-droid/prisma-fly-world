@@ -30,31 +30,31 @@ const BottomNav = () => {
     : baseTabs;
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-card border-t-2 border-double border-foreground/70 safe-area-bottom">
-      <div className="flex items-center justify-around h-16 max-w-lg mx-auto">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t border-border safe-area-bottom">
+      <div className="flex items-center justify-around h-16 max-w-lg mx-auto px-2">
         {tabs.map((tab) => {
           const active = location.pathname === tab.path;
           return (
             <button
               key={tab.path}
               onClick={() => navigate(tab.path)}
-              className="relative flex flex-col items-center gap-1 px-3 py-1.5 active:translate-y-[1px] transition-transform"
+              className="relative flex flex-col items-center gap-1 px-3 py-1.5 active:scale-95 transition-transform"
             >
               {active && (
                 <motion.div
                   layoutId="nav-indicator"
-                  className="absolute -top-0.5 left-1/2 -translate-x-1/2 w-8 h-1 bg-primary"
+                  className="absolute -top-[1px] left-1/2 -translate-x-1/2 w-8 h-[3px] rounded-full bg-primary"
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
               <tab.icon
-                size={18}
-                className={active ? "text-primary" : "text-foreground/60"}
-                strokeWidth={active ? 2.5 : 1.75}
+                size={20}
+                className={active ? "text-primary" : "text-foreground/50"}
+                strokeWidth={active ? 2.5 : 2}
               />
               <span
-                className={`text-[8px] ink-stamp ${
-                  active ? "text-primary font-bold" : "text-foreground/60"
+                className={`text-[10px] font-semibold ${
+                  active ? "text-primary" : "text-foreground/50"
                 }`}
               >
                 {tab.label}
@@ -66,5 +66,6 @@ const BottomNav = () => {
     </nav>
   );
 };
+
 
 export default BottomNav;
