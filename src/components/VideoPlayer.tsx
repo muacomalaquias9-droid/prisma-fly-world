@@ -103,7 +103,7 @@ const VideoPlayer = ({ channel }: VideoPlayerProps) => {
         nudgeMaxRetry: 10,
       });
       hlsRef.current = hls;
-      hls.loadSource(channel.url);
+      hls.loadSource(sources[fallbackIdx.current]);
       hls.attachMedia(video);
       hls.on(Hls.Events.MANIFEST_PARSED, (_, data) => {
         video.play().catch(() => {});
@@ -121,25 +121,40 @@ const VideoPlayer = ({ channel }: VideoPlayerProps) => {
       });
       hls.on(Hls.Events.ERROR, (_, data) => {
         if (data.fatal) {
+          const tryNext = () => {
+            if (fallbackIdx.current < sources.length - 1) {
+              fallbackIdx.current += 1;
+              setLoading(true);
+              try { hls?.loadSource(sources[fallbackIdx.current]); hls?.startLoad(); } catch {}
+            } else {
+              setError(true);
+              setLoading(false);
+            }
+          };
           if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
-            setTimeout(() => hls?.startLoad(), 1000);
+            tryNext();
           } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
-            hls?.recoverMediaError();
+            try { hls?.recoverMediaError(); } catch { tryNext(); }
           } else {
-            setError(true);
-            setLoading(false);
+            tryNext();
           }
         }
       });
     } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-      video.src = channel.url;
-      video.addEventListener("loadedmetadata", () => {
+      const loadSrc = (i: number) => {
+        video.src = sources[i];
         video.play().catch(() => {});
-        setLoading(false);
-      });
+      };
+      loadSrc(fallbackIdx.current);
+      video.addEventListener("loadedmetadata", () => setLoading(false));
       video.addEventListener("error", () => {
-        setError(true);
-        setLoading(false);
+        if (fallbackIdx.current < sources.length - 1) {
+          fallbackIdx.current += 1;
+          loadSrc(fallbackIdx.current);
+        } else {
+          setError(true);
+          setLoading(false);
+        }
       });
     } else {
       setError(true);
@@ -149,8 +164,10 @@ const VideoPlayer = ({ channel }: VideoPlayerProps) => {
     return () => {
       if (hls) hls.destroy();
       hlsRef.current = null;
+      fallbackIdx.current = 0;
     };
   }, [channel.url]);
+
 
   const toggleFullscreen = async () => {
     if (!containerRef.current) return;
