@@ -1,15 +1,6 @@
-import { Home, Globe, Link, Settings, Tv, Crown } from "lucide-react";
+import { Home, Search, Tv, Download, User, Crown, Link as LinkIcon } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
-
-const baseTabs = [
-  { path: "/", label: "Início", icon: Home },
-  { path: "/guide", label: "Guia", icon: Tv },
-  { path: "/regions", label: "Regiões", icon: Globe },
-  { path: "/servers", label: "Servidores", icon: Link },
-  { path: "/settings", label: "Ajustes", icon: Settings },
-];
 
 const BottomNav = () => {
   const location = useLocation();
@@ -24,38 +15,35 @@ const BottomNav = () => {
         { path: "/", label: "Início", icon: Home },
         { path: "/guide", label: "Guia", icon: Tv },
         { path: "/admin", label: "Admin", icon: Crown },
-        { path: "/servers", label: "Servidores", icon: Link },
-        { path: "/settings", label: "Ajustes", icon: Settings },
+        { path: "/servers", label: "Servidores", icon: LinkIcon },
+        { path: "/settings", label: "Perfil", icon: User },
       ]
-    : baseTabs;
+    : [
+        { path: "/", label: "Início", icon: Home },
+        { path: "/regions", label: "Novidades", icon: Search },
+        { path: "/guide", label: "Guia", icon: Tv },
+        { path: "/servers", label: "Downloads", icon: Download },
+        { path: "/settings", label: "Perfil", icon: User },
+      ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t border-border safe-area-bottom">
-      <div className="flex items-center justify-around h-16 max-w-lg mx-auto px-2">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-black/95 backdrop-blur border-t border-white/5 safe-area-bottom">
+      <div className="flex items-center justify-around h-14 max-w-lg mx-auto px-1">
         {tabs.map((tab) => {
           const active = location.pathname === tab.path;
           return (
             <button
               key={tab.path}
               onClick={() => navigate(tab.path)}
-              className="relative flex flex-col items-center gap-1 px-3 py-1.5 active:scale-95 transition-transform"
+              className="flex flex-col items-center gap-0.5 px-3 py-1.5 active:scale-90 transition-transform"
             >
-              {active && (
-                <motion.div
-                  layoutId="nav-indicator"
-                  className="absolute -top-[1px] left-1/2 -translate-x-1/2 w-8 h-[3px] rounded-full bg-primary"
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                />
-              )}
               <tab.icon
-                size={20}
-                className={active ? "text-primary" : "text-foreground/50"}
-                strokeWidth={active ? 2.5 : 2}
+                size={22}
+                className={active ? "text-white" : "text-white/50"}
+                strokeWidth={active ? 2.4 : 1.8}
               />
               <span
-                className={`text-[10px] font-semibold ${
-                  active ? "text-primary" : "text-foreground/50"
-                }`}
+                className={`text-[10px] ${active ? "text-white font-semibold" : "text-white/50 font-normal"}`}
               >
                 {tab.label}
               </span>
@@ -66,6 +54,5 @@ const BottomNav = () => {
     </nav>
   );
 };
-
 
 export default BottomNav;
