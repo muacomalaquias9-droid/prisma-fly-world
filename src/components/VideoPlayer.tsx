@@ -50,6 +50,9 @@ const VideoPlayer = ({ channel }: VideoPlayerProps) => {
   const [selectedLang, setSelectedLang] = useState("pt");
   const [availableLevels, setAvailableLevels] = useState<{ label: string; level: number }[]>([]);
   const hideTimeout = useRef<ReturnType<typeof setTimeout>>();
+  const fallbackIdx = useRef(0);
+  const sources = [channel.url, ...(channel.fallbacks || [])];
+
 
   useEffect(() => {
     setViewers(getViewerCount(channel.id));
