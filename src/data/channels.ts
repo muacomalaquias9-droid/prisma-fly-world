@@ -7,7 +7,9 @@ export interface Channel {
   category: string;
   viewers?: number;
   popular?: boolean;
+  fallbacks?: string[];
 }
+
 
 export interface ChannelGroup {
   country: string;
