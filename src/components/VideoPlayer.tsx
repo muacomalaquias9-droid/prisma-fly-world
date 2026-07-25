@@ -54,6 +54,27 @@ const VideoPlayer = ({ channel }: VideoPlayerProps) => {
   const hideTimeout = useRef<ReturnType<typeof setTimeout>>();
   const fallbackIdx = useRef(0);
   const sources = [channel.url, ...(channel.fallbacks || [])];
+  const isTV = useTVMode();
+  useDpadNavigation(isTV);
+
+  // Controlo por comando: OK mostra controlos, Voltar sai do canal
+  useEffect(() => {
+    if (!isTV) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        setShowControls(true);
+        clearTimeout(hideTimeout.current);
+        hideTimeout.current = setTimeout(() => setShowControls(false), 5000);
+      }
+      if (e.key === "Escape" || e.key === "Backspace" || e.key === "GoBack") {
+        e.preventDefault();
+        navigate(-1);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isTV, navigate]);
+
 
 
   useEffect(() => {
