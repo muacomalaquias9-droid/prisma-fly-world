@@ -12,7 +12,8 @@ const UA =
 
 const selfUrl = (req: Request) => {
   const u = new URL(req.url);
-  return `${u.origin}${u.pathname}`;
+  const host = req.headers.get("x-forwarded-host") || u.host;
+  return `https://${host}${u.pathname}`;
 };
 
 const rewrite = (body: string, base: string, self: string) => {
