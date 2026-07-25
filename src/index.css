@@ -136,3 +136,40 @@
 }
 
 .live-indicator { animation: pulse-glow 1.6s ease-in-out infinite; }
+
+/* =========================================================
+   ANDROID TV — UI/UX para ecrãs grandes e comando (D-pad)
+   ========================================================= */
+.tv-focusable,
+.tv-card {
+  outline: none;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+}
+.tv-focusable:focus-visible,
+.tv-focusable:focus,
+.tv-card:focus-visible,
+.tv-card:focus {
+  transform: scale(1.06);
+  box-shadow: 0 0 0 3px hsl(var(--primary)), 0 18px 40px rgba(0, 0, 0, 0.7);
+  border-radius: 12px;
+  z-index: 5;
+}
+.tv-card:focus img,
+.tv-card:focus-visible img {
+  filter: brightness(1.1);
+}
+
+html.tv-mode body {
+  font-size: 18px;
+  cursor: none;
+}
+html.tv-mode ::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+@media (min-width: 1280px) and (pointer: coarse) {
+  .tv-safe {
+    padding: 3vh 4vw;
+  }
+}
