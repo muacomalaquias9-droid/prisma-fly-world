@@ -41,6 +41,8 @@ const SettingsPage = () => {
   }, [lang]);
 
   const currentLang = APP_LANGUAGES.find((l) => l.code === lang) || APP_LANGUAGES[0];
+  const tvOn = useTVMode();
+
 
   return (
     <div className="h-full flex flex-col">
