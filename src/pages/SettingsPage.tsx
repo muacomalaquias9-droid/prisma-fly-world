@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import { Monitor, Info, Globe, Check } from "lucide-react";
+import { useTVMode } from "@/hooks/useTVMode";
+import { setTVMode } from "@/lib/tv";
+
 
 const APP_LANGUAGES = [
   { code: "pt", label: "Português", flag: "https://flagcdn.com/w20/br.png" },
