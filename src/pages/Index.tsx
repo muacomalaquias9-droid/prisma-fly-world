@@ -3,6 +3,8 @@ import { Search, Bell, Play, Plus, Info, Download, LogOut, Tv } from "lucide-rea
 import { channelGroups, getAllChannels, getPopularChannels } from "@/data/channels";
 import { useM3UServers } from "@/hooks/useM3UParser";
 import { useAuth } from "@/hooks/useAuth";
+import { useTVMode } from "@/hooks/useTVMode";
+import TVHome from "@/components/tv/TVHome";
 import ChannelRow from "@/components/ChannelRow";
 import ChannelCard from "@/components/ChannelCard";
 import PopularCard from "@/components/PopularCard";
@@ -19,7 +21,9 @@ const Index = () => {
   const [installPrompt, setInstallPrompt] = useState<any>(null);
   const { serverChannels } = useM3UServers();
   const { signOut } = useAuth();
+  const isTV = useTVMode();
   const navigate = useNavigate();
+
 
   useEffect(() => {
     const handler = (e: any) => { e.preventDefault(); setInstallPrompt(e); };
@@ -51,7 +55,10 @@ const Index = () => {
     setInstallPrompt(null);
   };
 
+  if (isTV) return <TVHome />;
+
   return (
+
     <div className="h-full flex flex-col bg-background">
       <main className="flex-1 overflow-y-auto overscroll-contain pb-20 scrollbar-hide relative">
         {/* Top nav overlay */}

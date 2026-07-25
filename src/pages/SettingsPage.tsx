@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import { Monitor, Info, Globe, Check } from "lucide-react";
+import { useTVMode } from "@/hooks/useTVMode";
+import { setTVMode } from "@/lib/tv";
+
 
 const APP_LANGUAGES = [
   { code: "pt", label: "Português", flag: "https://flagcdn.com/w20/br.png" },
@@ -41,6 +44,8 @@ const SettingsPage = () => {
   }, [lang]);
 
   const currentLang = APP_LANGUAGES.find((l) => l.code === lang) || APP_LANGUAGES[0];
+  const tvOn = useTVMode();
+
 
   return (
     <div className="h-full flex flex-col">
@@ -93,6 +98,33 @@ const SettingsPage = () => {
               ))}
             </div>
           )}
+
+          <button
+            onClick={() => setTVMode(!tvOn)}
+            className="w-full flex items-center gap-3 p-4 border-b border-border active:bg-muted transition-colors"
+          >
+            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+              <Monitor size={18} className="text-primary" />
+            </div>
+            <div className="flex-1 text-left">
+              <p className="text-sm font-medium text-foreground">Modo Android TV</p>
+              <p className="text-xs text-muted-foreground">
+                {tvOn ? "Ativo — interface para TV e comando" : "Automático (deteta a TV)"}
+              </p>
+            </div>
+            <span
+              className={`w-11 h-6 rounded-full flex items-center px-0.5 transition-colors ${
+                tvOn ? "bg-primary" : "bg-muted"
+              }`}
+            >
+              <span
+                className={`w-5 h-5 rounded-full bg-background shadow transition-transform ${
+                  tvOn ? "translate-x-5" : ""
+                }`}
+              />
+            </span>
+          </button>
+
 
           <div className="flex items-center gap-3 p-4">
             <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
