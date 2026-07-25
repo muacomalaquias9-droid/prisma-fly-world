@@ -10,6 +10,10 @@ export interface Channel {
   fallbacks?: string[];
 }
 
+// Proxy HLS (Lovable Cloud) — permite tocar streams HTTP/sem CORS num site HTTPS
+const PROXY = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/hls-proxy?u=`;
+export const px = (url: string) => `${PROXY}${encodeURIComponent(url)}`;
+
 
 export interface ChannelGroup {
   country: string;
