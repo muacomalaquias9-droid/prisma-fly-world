@@ -11,9 +11,10 @@ const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36";
 
 const selfUrl = (req: Request) => {
+  const base = Deno.env.get("SUPABASE_URL");
+  if (base) return `${base}/functions/v1/hls-proxy`;
   const u = new URL(req.url);
-  const host = req.headers.get("x-forwarded-host") || u.host;
-  return `https://${host}${u.pathname}`;
+  return `https://${u.host}${u.pathname}`;
 };
 
 const rewrite = (body: string, base: string, self: string) => {
