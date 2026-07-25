@@ -55,7 +55,10 @@ const Index = () => {
     setInstallPrompt(null);
   };
 
+  if (isTV) return <TVHome />;
+
   return (
+
     <div className="h-full flex flex-col bg-background">
       <main className="flex-1 overflow-y-auto overscroll-contain pb-20 scrollbar-hide relative">
         {/* Top nav overlay */}
