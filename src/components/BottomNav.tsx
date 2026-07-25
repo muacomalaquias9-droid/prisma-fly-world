@@ -1,29 +1,41 @@
-import { Home, Search, Tv, Download, User, Crown, Link as LinkIcon } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Icon from "@mdi/react";
+import {
+  mdiHomeVariant,
+  mdiMagnify,
+  mdiTelevisionClassic,
+  mdiDownloadCircleOutline,
+  mdiAccountCircle,
+  mdiCrown,
+  mdiServerNetwork,
+} from "@mdi/js";
 import { useAuth } from "@/hooks/useAuth";
+import { useTVMode } from "@/hooks/useTVMode";
 
 const BottomNav = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { isAdmin } = useAuth();
+  const isTV = useTVMode();
 
+  if (isTV) return null;
   if (location.pathname.startsWith("/player")) return null;
   if (location.pathname === "/login" || location.pathname === "/signup") return null;
 
   const tabs = isAdmin
     ? [
-        { path: "/", label: "Início", icon: Home },
-        { path: "/guide", label: "Guia", icon: Tv },
-        { path: "/admin", label: "Admin", icon: Crown },
-        { path: "/servers", label: "Servidores", icon: LinkIcon },
-        { path: "/settings", label: "Perfil", icon: User },
+        { path: "/", label: "Início", icon: mdiHomeVariant },
+        { path: "/guide", label: "Guia", icon: mdiTelevisionClassic },
+        { path: "/admin", label: "Admin", icon: mdiCrown },
+        { path: "/servers", label: "Servidores", icon: mdiServerNetwork },
+        { path: "/settings", label: "Perfil", icon: mdiAccountCircle },
       ]
     : [
-        { path: "/", label: "Início", icon: Home },
-        { path: "/regions", label: "Novidades", icon: Search },
-        { path: "/guide", label: "Guia", icon: Tv },
-        { path: "/servers", label: "Downloads", icon: Download },
-        { path: "/settings", label: "Perfil", icon: User },
+        { path: "/", label: "Início", icon: mdiHomeVariant },
+        { path: "/regions", label: "Novidades", icon: mdiMagnify },
+        { path: "/guide", label: "Guia", icon: mdiTelevisionClassic },
+        { path: "/servers", label: "Downloads", icon: mdiDownloadCircleOutline },
+        { path: "/settings", label: "Perfil", icon: mdiAccountCircle },
       ];
 
   return (
@@ -37,10 +49,10 @@ const BottomNav = () => {
               onClick={() => navigate(tab.path)}
               className="flex flex-col items-center gap-0.5 px-3 py-1.5 active:scale-90 transition-transform"
             >
-              <tab.icon
-                size={22}
+              <Icon
+                path={tab.icon}
+                size={0.95}
                 className={active ? "text-white" : "text-white/50"}
-                strokeWidth={active ? 2.4 : 1.8}
               />
               <span
                 className={`text-[10px] ${active ? "text-white font-semibold" : "text-white/50 font-normal"}`}
