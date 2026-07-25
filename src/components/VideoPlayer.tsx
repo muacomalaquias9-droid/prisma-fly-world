@@ -310,7 +310,7 @@ const VideoPlayer = ({ channel }: VideoPlayerProps) => {
             <ArrowLeft size={20} />
           </button>
           <div className="flex-1 min-w-0">
-            <h3 className="text-white font-display font-semibold text-sm truncate">{channel.name}</h3>
+            <h3 className={`text-white font-display font-semibold truncate ${isTV ? "text-2xl" : "text-sm"}`}>{channel.name}</h3>
             <p className="text-white/50 text-[10px] font-body">{channel.country} · {channel.category}</p>
           </div>
           <div className="flex items-center gap-1.5">
@@ -365,34 +365,39 @@ const VideoPlayer = ({ channel }: VideoPlayerProps) => {
         )}
 
         {/* Bottom bar */}
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3 flex items-center justify-end gap-2">
+        <div className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent flex items-center justify-end ${isTV ? "p-8 gap-4" : "p-3 gap-2"}`}>
           <button
             onClick={(e) => { e.stopPropagation(); rotateScreen(); }}
-            className="text-white w-10 h-10 flex items-center justify-center rounded-full bg-white/10 active:scale-90 transition-transform"
+            data-focusable
+            className={`tv-focusable text-white flex items-center justify-center rounded-full bg-white/10 active:scale-90 transition-transform ${isTV ? "w-16 h-16" : "w-10 h-10"}`}
           >
             <RotateCw size={18} />
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); setShowSubMenu(showSubMenu === "language" ? null : "language"); }}
-            className="text-white w-10 h-10 flex items-center justify-center rounded-full bg-white/10 active:scale-90 transition-transform"
+            data-focusable
+            className={`tv-focusable text-white flex items-center justify-center rounded-full bg-white/10 active:scale-90 transition-transform ${isTV ? "w-16 h-16" : "w-10 h-10"}`}
           >
             <Languages size={18} />
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); setShowSubMenu(showSubMenu === "quality" ? null : "quality"); }}
-            className="text-white w-10 h-10 flex items-center justify-center rounded-full bg-white/10 active:scale-90 transition-transform"
+            data-focusable
+            className={`tv-focusable text-white flex items-center justify-center rounded-full bg-white/10 active:scale-90 transition-transform ${isTV ? "w-16 h-16" : "w-10 h-10"}`}
           >
             <Settings size={18} />
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); setMuted(!muted); }}
-            className="text-white w-10 h-10 flex items-center justify-center rounded-full bg-white/10 active:scale-90 transition-transform"
+            data-focusable
+            className={`tv-focusable text-white flex items-center justify-center rounded-full bg-white/10 active:scale-90 transition-transform ${isTV ? "w-16 h-16" : "w-10 h-10"}`}
           >
             {muted ? <VolumeX size={18} /> : <Volume2 size={18} />}
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); toggleFullscreen(); }}
-            className="text-white w-10 h-10 flex items-center justify-center rounded-full bg-white/10 active:scale-90 transition-transform"
+            data-focusable
+            className={`tv-focusable text-white flex items-center justify-center rounded-full bg-white/10 active:scale-90 transition-transform ${isTV ? "w-16 h-16" : "w-10 h-10"}`}
           >
             {isFullscreen ? <Minimize size={18} /> : <Maximize size={18} />}
           </button>
