@@ -7,10 +7,12 @@ import {
 import { useNavigate } from "react-router-dom";
 import type { Channel } from "@/data/channels";
 import { getViewerCount } from "@/data/channels";
+import { useTVMode, useDpadNavigation } from "@/hooks/useTVMode";
 
 interface VideoPlayerProps {
   channel: Channel;
 }
+
 
 const QUALITY_OPTIONS = [
   { label: "Auto", level: -1 },
