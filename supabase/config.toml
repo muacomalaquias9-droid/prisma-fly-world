@@ -1,1 +1,4 @@
 project_id = "kxkiexhxlydwzwmdgfqw"
+
+[functions.hls-proxy]
+verify_jwt = false
