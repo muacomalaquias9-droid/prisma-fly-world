@@ -26,7 +26,7 @@ const TVSidebar = () => {
   ];
 
   return (
-    <aside className="group/side fixed left-0 top-0 bottom-0 z-40 w-20 hover:w-60 focus-within:w-60 transition-all duration-200 bg-gradient-to-r from-black via-black/95 to-black/40 flex flex-col py-8">
+    <aside className="group/side fixed left-0 top-0 bottom-0 z-40 w-20 hover:w-60 focus-within:w-60 transition-all duration-200 bg-gradient-to-r from-black via-black/95 to-black/40 hover:bg-black hover:bg-none focus-within:bg-black focus-within:bg-none flex flex-col py-8">
       <div className="px-5 mb-10 flex items-center gap-3">
         <span className="font-brand text-primary text-4xl leading-none">P</span>
         <span className="font-brand text-primary text-3xl leading-none opacity-0 group-hover/side:opacity-100 group-focus-within/side:opacity-100 transition-opacity whitespace-nowrap">
