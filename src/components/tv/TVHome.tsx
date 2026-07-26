@@ -58,7 +58,7 @@ const TVHome = () => {
   const featured = popular[0];
 
   return (
-    <div className="h-full w-full bg-black overflow-y-auto scrollbar-hide">
+    <div className="min-h-screen w-full bg-black overflow-y-auto scrollbar-hide pb-20">
       <TVSidebar />
 
       <main className="pl-24 pr-10">
