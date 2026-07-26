@@ -52,7 +52,8 @@ export function useM3UServers() {
     fetchServers();
 
     const channel = supabase
-      .channel("m3u_servers_realtime")
+      .channel(`m3u_servers_realtime_${Math.random().toString(36).slice(2)}`)
+
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "shared_servers" },
